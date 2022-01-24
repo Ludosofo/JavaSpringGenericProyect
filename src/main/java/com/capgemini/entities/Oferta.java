@@ -25,7 +25,7 @@ public class Oferta implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
+	
 	private long id_usuario;
 	
 	@NotNull
