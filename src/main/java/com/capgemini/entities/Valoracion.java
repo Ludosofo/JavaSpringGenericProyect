@@ -15,6 +15,6 @@ public class Valoracion implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long id_usario;
+	private Long id_usuario;
 	private float stars;
 }
