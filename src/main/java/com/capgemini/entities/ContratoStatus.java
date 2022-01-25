@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Contrato_status {
+public class ContratoStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
