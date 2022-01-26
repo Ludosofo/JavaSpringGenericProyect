@@ -23,8 +23,7 @@ public class UsuarioImagen {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToOne
+
 	private Long id_usuario;
 	private String relativeURL;
 	private LocalDate fecha_subida;
