@@ -29,6 +29,7 @@ public class Valoracion implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+<<<<<<< HEAD
 	
 	@NotNull
 	@ManyToOne
@@ -38,6 +39,9 @@ public class Valoracion implements Serializable{
 	@NotNull
 	private Long id_vendedor;
 	
+=======
+	private Long id_usuario;
+>>>>>>> branch 'main' of https://github.com/Ludosofo/BackendProyectoFinal.git
 	private float stars;
 }
 

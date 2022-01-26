@@ -15,6 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
+
 public class OfertaStatus implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
