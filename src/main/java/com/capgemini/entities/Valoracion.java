@@ -29,30 +29,14 @@ public class Valoracion implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-<<<<<<< Upstream, based on branch 'main' of https://github.com/Ludosofo/BackendProyectoFinal.git
-
-	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name="nuestrasValoraciones")
-	private Usuario usuario; 
-=======
->>>>>>> b149c66 Base de datos ya creada y relacioada correctamente
 	
 	@NotNull
 	private Long id_vendedor;
 	
-<<<<<<< Upstream, based on branch 'main' of https://github.com/Ludosofo/BackendProyectoFinal.git
-
-=======
 	@NotNull
->>>>>>> b149c66 Base de datos ya creada y relacioada correctamente
 	private Long id_usuario;
 
-<<<<<<< Upstream, based on branch 'main' of https://github.com/Ludosofo/BackendProyectoFinal.git
-=======
 	@NotNull
->>>>>>> b149c66 Base de datos ya creada y relacioada correctamente
 	private float stars;
 	
 	@NotNull
