@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,9 +22,12 @@ public class UsuarioImagen {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
-	public String relativeURL;
-	public LocalDate fecha_subida;
+	private Long id;
+
+	private Long id_usuario;
+	private String relativeURL;
+	private LocalDate fecha_subida;
+	
 }
 
 
