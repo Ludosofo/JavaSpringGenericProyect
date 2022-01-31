@@ -65,10 +65,4 @@ public class Usuario implements Serializable{
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private UsuarioImagen usuarioImage;
-	
-	//@OneToMany(mappedBy = "valoracion")
-	//private List<Valoracion> nuestrasValoraciones; // Valoraciones de nuestro usuario
-	
-	//@OneToMany(mappedBy = "valoracion")
-	//private List<Valoracion> valoracionesHaciaNosotros; // Valoraciones de nuestro usuario
 }
