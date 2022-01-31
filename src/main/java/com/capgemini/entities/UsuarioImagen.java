@@ -26,6 +26,7 @@ public class UsuarioImagen {
 	private Long id;
 	
 	@ManyToOne
+	private Usuario usuarioImagenes;
 	private Long id_usuario;
 	private String relativeURL;
 	private LocalDate fecha_subida;
