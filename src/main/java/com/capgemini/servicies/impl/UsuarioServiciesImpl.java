@@ -19,4 +19,28 @@ import com.capgemini.servicies.IUsuarioServicies;
 @Service
 public class UsuarioServiciesImpl implements IUsuarioServicies{
 
+	@Override
+	public List<Usuario> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario findById(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void save(Usuario oferta) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
