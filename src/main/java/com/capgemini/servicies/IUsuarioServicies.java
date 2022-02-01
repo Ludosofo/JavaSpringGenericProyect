@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.capgemini.entities.Usuario;
 
 @Repository
-public interface IUsuarioServicies extends JpaRepository<Usuario, Long>{
+public interface IUsuarioServicies {
 }
