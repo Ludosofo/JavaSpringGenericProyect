@@ -32,9 +32,9 @@ public class Contrato implements Serializable{
 	@NotNull
 	private long id;
 	@NotNull
-	private long id_ofertante;
+	private long usuarioOfertante;
 	@NotNull
-	private long id_comprador;
+	private long usuarioReceptor;
 	@NotNull
 	@NotEmpty(message = "Inserte precio")
 	private Double precio;

@@ -30,11 +30,10 @@ public class Valoracion implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
-	private Long id_vendedor;
 	
-	@NotNull
-	private Long id_usuario;
+	
+	
+	
 
 	@NotNull
 	private float stars;

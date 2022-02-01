@@ -1,11 +1,13 @@
 package com.capgemini.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +28,6 @@ public class ContratoStatus implements Serializable{
 	private long id;
 	private String name;
 	
-	@OneToOne
-	private Contrato contrato;
+	@OneToMany
+	private List<Contrato> contrato;
 }

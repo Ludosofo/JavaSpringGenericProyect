@@ -1,6 +1,7 @@
 package com.capgemini.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,10 +15,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name="ofertas")
 public class Oferta implements Serializable {
 	/**
@@ -30,10 +35,11 @@ public class Oferta implements Serializable {
 	private long id;
 	
 	
-	private long id_usuario;
 	
+	@ManyToOne
 	@NotNull
-	private  String status;
+	private OfertaStatus status;
+	
 	
 	@NotNull
 	@NotEmpty(message = "Inserte un título para su oferta")
@@ -55,6 +61,7 @@ public class Oferta implements Serializable {
 	
 	@OneToMany(mappedBy="oferta")
 	public List<OfertaImagenes> ofertaImagenes;
+	
 	
 } 
 	
