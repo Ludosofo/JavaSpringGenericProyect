@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.capgemini.entities.Contrato;
 
-public interface IContratoServices {
+public interface IContratoServ {
     public List<Contrato> findAll();
 	public Contrato findById(long id);
     public void delete(long id);

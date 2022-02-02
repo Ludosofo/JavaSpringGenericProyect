@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.IUsuarioDao;
 import com.capgemini.entities.Usuario;
-import com.capgemini.servicies.IUsuarioServicies;
+import com.capgemini.servicies.IUsuarioServ;
 
 
 
 // TODO
 @Service
-public class UsuarioServiciesImpl implements IUsuarioServicies{
+public class UsuarioServImpl implements IUsuarioServ{
 	private IUsuarioDao daoUsuario;
 	@Override
 	public List<Usuario> findAll() {

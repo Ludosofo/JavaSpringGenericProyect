@@ -5,24 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capgemini.dao.IOfertaDao;
-import com.capgemini.entities.Oferta;
-import com.capgemini.servicies.IOfertaServ;
+import com.capgemini.dao.IContratoDao;
+import com.capgemini.entities.Contrato;
+import com.capgemini.servicies.IContratoServ;
 
 @Service
-public class OfertaServImpl implements IOfertaServ {
+public class ContratoServImpl implements IContratoServ {
 	
 	@Autowired
-	private IOfertaDao daoOferta;
+	private IContratoDao daoContrato;
 
 	@Override
-	public List<Oferta> findAll() {
+	public List<Contrato> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Oferta findById(long id) {
+	public Contrato findById(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -30,13 +30,13 @@ public class OfertaServImpl implements IOfertaServ {
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void save(Oferta oferta) {
+	public void save(Contrato contrato) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

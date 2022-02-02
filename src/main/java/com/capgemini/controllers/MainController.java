@@ -1,5 +1,12 @@
 package com.capgemini.controllers;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/lemonapp")
 public class MainController {
-	// Este es un comentario a las 17:29
+	
+	//añadir métodos, con sus respectivas conexiones a la capa de servicios
+	
 }
