@@ -77,6 +77,10 @@ public class MainController implements Serializable{
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name="id") Long id, Model model) {
 		String userImgURL = defaultUserURL;
-		return usuarioService.getImgByUser(id);
+		String userImgCandidate = usuarioService.getImgByUser(id);
+		if(userImgCandidate!=""){
+			userImgURL = userImgCandidate;
+		}
+		return userImgURL;
 	}
 }
