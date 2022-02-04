@@ -50,7 +50,7 @@ public class MainController implements Serializable{
 	
 	@Autowired private IUsuarioServ usuarioService;
 	@Autowired private IOfertaServ ofertaService;
-	
+
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina 
 	@GetMapping()
 	public ModelAndView getIndex(){
@@ -77,6 +77,6 @@ public class MainController implements Serializable{
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name="id") String id, Model model) {
 		String userImgURL = defaultUserURL;
-		return usuarioService.getImgByUser(id);
+		return userImgURL; // usuarioService.getImgByUser(id);
 	}
 }

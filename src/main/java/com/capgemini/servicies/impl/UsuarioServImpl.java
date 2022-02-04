@@ -37,4 +37,11 @@ public class UsuarioServImpl implements IUsuarioServ{
 		
 	}
 
+	// TODO: Buscar URL respecto al usuario, aunque podriamos usar UsuarioImagenServImpl no sé
+	@Override
+	public String getImgByUser(long id) {
+		// TODO Auto-generated method stub
+		return "TODO: UsuarioServImpl.getImgByUser(${id})";
+	}
+
 }
