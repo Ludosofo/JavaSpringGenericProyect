@@ -1,21 +1,23 @@
 package com.capgemini.servicies.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.IUsuarioDao;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IUsuarioServ;
 
-
-
-// TODO
 @Service
 public class UsuarioServImpl implements IUsuarioServ{
-	private IUsuarioDao daoUsuario;
+
+	@Autowired
+	private IUsuarioDao daoUsuario;	// ATENTION: No funcionaba daoUsuario.findAll(); Porque no tenia Autowired!!!
+
 	@Override
 	public List<Usuario> findAll() {
-		
 		return daoUsuario.findAll();
 	}
 

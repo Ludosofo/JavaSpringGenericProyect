@@ -54,8 +54,9 @@ public class MainController implements Serializable{
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina 
 	@GetMapping()
 	public ModelAndView getIndex(){
+		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
-		// mav.addObject("listaOfertas", ofertaService.findAll());
+		mav.addObject("listaUsuarios", usuarioService.findAll());
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
