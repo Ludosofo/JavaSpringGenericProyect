@@ -45,12 +45,13 @@ public class MainController implements Serializable{
 	*/
 
 	private static final Log LOG = LogFactory.getLog(MainController.class);
-
+	private static final String defaultUserURL = ""; // TODO
+	private Path imagesURL = Paths.get("src//main//resources//static/images");
+	
 	@Autowired private IUsuarioServ usuarioService;
 	@Autowired private IOfertaServ ofertaService;
-
-	private Path imagesURL = Paths.get("src//main//resources//static/images");
-
+	
+	// Estás conectado ? Pues debería redireccionarnos a otra pagina 
 	@GetMapping()
 	public ModelAndView getIndex(){
 		ModelAndView mav = new ModelAndView("index");
@@ -59,14 +60,23 @@ public class MainController implements Serializable{
 		return mav;
 	}
 	
+	// Procesamiento del registro
 	@GetMapping("/register")
 	public String saveUsuario(Model model){
 		model.addAttribute("usuario", new Usuario());
 		return "createUsuario";
 	}
 	
+	// Intentar logearte
 	@GetMapping("/login")
 	public String verifyCredentials(){
+		// TODO: Verificar credenciales
 		return "redirect:/landingPage";
+	}
+
+	@GetMapping("/getImgByUser/{id}")
+	public String getImgByUser(@PathVariable(name="id") String id, Model model) {
+		String userImgURL = defaultUserURL;
+		return usuarioService.getImgByUser(id);
 	}
 }
