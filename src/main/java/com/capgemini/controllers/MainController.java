@@ -45,31 +45,28 @@ public class MainController implements Serializable{
 	*/
 
 	private static final Log LOG = LogFactory.getLog(MainController.class);
-	
-	@Autowired
-	private IUsuarioServ usuarioService;
 
-	@Autowired
-	private IOfertaServ ofertaService;
-	
+	@Autowired private IUsuarioServ usuarioService;
+	@Autowired private IOfertaServ ofertaService;
+
 	private Path imagesURL = Paths.get("src//main//resources//static/images");
 
 	@GetMapping()
 	public ModelAndView getIndex(){
 		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("listaOfertas", ofertaService.findAll());
-		mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
+		// mav.addObject("listaOfertas", ofertaService.findAll());
+		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
 	
 	@GetMapping("/register")
-	public String crearPersona(Model model){
+	public String saveUsuario(Model model){
 		model.addAttribute("usuario", new Usuario());
-		return "createPersona";
+		return "createUsuario";
 	}
-
+	
 	@GetMapping("/login")
-	public String setSession(){
-		return null;
+	public String verifyCredentials(){
+		return "redirect:/landingPage";
 	}
 }
