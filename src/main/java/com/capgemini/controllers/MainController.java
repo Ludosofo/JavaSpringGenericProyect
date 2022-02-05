@@ -1,8 +1,11 @@
 package com.capgemini.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
@@ -24,64 +27,113 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
-public class MainController implements Serializable{
+public class MainController implements Serializable {
 
 	/*
-		- index
-		- getUsuario 		( obtener perfil )
-		- saveUsuario 		( creación/edición )
-		- getListOfertas  	( Hacer un filtro entre las ofertas )
-		- saveUsuarioImagen ( Podría ir aparte y ser llamado por saveUsuario )
-		- saveOferta 		( creación/edición )
-		- saveContrato 		( creación/edición )
-		- deleteOferta  	( )
-		- deleteUsuario 	( darse de baja ? )
-		- getContrato
-		- deleteContrato 	( borrar oferta SOLO si no está cerrado )
-		- saveValoracion 	( creación/valoracion )
-
-		WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente
-		// Esto requiere documentarse sobre seguridad y creación de cookies
-	*/
+	 * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
+	 * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
+	 * Podría ir aparte y ser llamado por saveUsuario ) - saveOferta (
+	 * creación/edición ) - saveContrato ( creación/edición ) - deleteOferta ( ) -
+	 * deleteUsuario ( darse de baja ? ) - getContrato - deleteContrato ( borrar
+	 * oferta SOLO si no está cerrado ) - saveValoracion ( creación/valoracion )
+	 * 
+	 * WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente // Esto
+	 * requiere documentarse sobre seguridad y creación de cookies
+	 */
 
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 	private static final String defaultUserURL = ""; // TODO
 	private Path imagesURL = Paths.get("src//main//resources//static/images");
-	
-	@Autowired private IUsuarioServ usuarioService;
-	@Autowired private IOfertaServ ofertaService;
 
-	// Estás conectado ? Pues debería redireccionarnos a otra pagina 
+	@Autowired
+	private IUsuarioServ usuarioService;
+	@Autowired
+	private IOfertaServ ofertaService;
+
+	// Estás conectado ? Pues debería redireccionarnos a otra pagina
 	@GetMapping()
-	public ModelAndView getIndex(){
+	public ModelAndView getIndex() {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
 		mav.addObject("listaUsuarios", usuarioService.findAll());
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
-	
+
 	// Procesamiento del registro
 	@GetMapping("/register")
-	public String saveUsuario(Model model){
+	public String saveUsuario(Model model) {
 		model.addAttribute("usuario", new Usuario());
-		return "createUsuario";
+		return "registroUsuario";
 	}
-	
+
+	@PostMapping("/formularioRegistro")
+	public String formularioRegistro(@ModelAttribute(name = "usuario") Usuario usuario, @RequestParam (name="file") MultipartFile avatar) {
+
+		if (!avatar.isEmpty()) {
+
+			// Ruta absoluta
+			String rutaAbsoluta = "//home//curso//EjemploRecursos//Fotitos";
+
+
+			try {
+				byte[] bytesImages = avatar.getBytes();
+
+				// Ruta completa, que incluye el nombre original de la imagen
+
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + avatar.getOriginalFilename());
+
+				LOG.info("ruta completa la imagen" + rutaCompleta);
+
+				Files.write(rutaCompleta, bytesImages);
+
+				usuario.setAvatar(avatar.getOriginalFilename());
+
+				usuarioService.guardaUsuario(usuario);
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+		}
+
+		
+		return "redirect:/lemonApp";
+
+	}
+
 	// Intentar logearte
 	@GetMapping("/login")
-	public String verifyCredentials(){
+	public String verifyCredentials() {
 		// TODO: Verificar credenciales
 		return "redirect:/landingPage";
 	}
+	
+	
+	@PostMapping("/formularioLogin")
+	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {
+		
+		
+		
+		return "redirect:/landingPage";
+	}
+
+	
+
+
+		
+		
+
 
 	@GetMapping("/getImgByUser/{id}")
-	public String getImgByUser(@PathVariable(name="id") Long id, Model model) {
+	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
 		String userImgURL = defaultUserURL;
 		String userImgCandidate = usuarioService.getImgByUser(id);
-		if(userImgCandidate!=""){
+		if (userImgCandidate != "") {
 			userImgURL = userImgCandidate;
 		}
 		return userImgURL;
 	}
+
 }

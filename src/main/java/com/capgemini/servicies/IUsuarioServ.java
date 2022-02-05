@@ -12,4 +12,5 @@ public interface IUsuarioServ {
     public void delete(long id);
     public void save(Usuario oferta);
     public String getImgByUser(long id);
+    public void guardaUsuario(Usuario usuario);
 }
