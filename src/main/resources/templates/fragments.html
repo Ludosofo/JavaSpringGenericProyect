@@ -21,18 +21,21 @@
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
         <div class="mb-3">
-            <input class="form-input" name="nombre" placeholder="nombre">
+            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="Nick de usuario">
         </div>
         <div class="mb-3">
-            <input class="form-input" name="apellidos" placeholder="apellidos">
+            <input class="form-input" th:value="${usuario.nombre}" name="alias" placeholder="Nombre">
+        </div>
+        <div class="mb-3">
+            <input class="form-input" th:value="${usuario.apellidos}" name="apellidos" placeholder="apellidos">
         </div>
         <div class="mb-3">
             <label>Contraseña</label>
-            <input class="form-input" name="pass" placeholder="contraseña">
+            <input class="form-input" th:value="${usuario.pass}" name="pass" placeholder="contraseña">
         </div>
         <div class="mb-3">
             <label>Confirma tu contraseña</label>
-            <input class="form-input" name="pass" placeholder="contraseña">
+            <input class="form-input" th:value="${usuario.pass}" name="pass" placeholder="contraseña">
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Registrate">
