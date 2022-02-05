@@ -18,24 +18,26 @@ public class ContratoServImpl implements IContratoServ {
 	@Override
 	public List<Contrato> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return daoContrato.findAll();
 	}
 
 	@Override
 	public Contrato findById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return daoContrato.getById(id);
 	}
 
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
+		daoContrato.deleteById(id);
 
 	}
 
 	@Override
 	public void save(Contrato contrato) {
 		// TODO Auto-generated method stub
+		daoContrato.save(contrato);
 
 	}
 

@@ -24,18 +24,20 @@ public class UsuarioServImpl implements IUsuarioServ{
 	@Override
 	public Usuario findById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return daoUsuario.getById(id);
 	}
 
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
+		daoUsuario.deleteById(id);
 		
 	}
 
 	@Override
 	public void save(Usuario oferta) {
 		// TODO Auto-generated method stub
+		daoUsuario.save(oferta);
 		
 	}
 
