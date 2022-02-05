@@ -9,7 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/rebootProyect")
 public class ProjectController {
     
-    // TRUNCATE + INSERT INTO de datos por defecto del proyecto 
+    // TRUNCATE + INSERT INTO de datos por defecto del proyecto
+	
     @GetMapping()
 	public ModelAndView getIndex(){
 		ModelAndView mav = new ModelAndView("projectInfo");

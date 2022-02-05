@@ -76,7 +76,6 @@ public class MainController implements Serializable {
 			// Ruta absoluta
 			String rutaAbsoluta = "//home//curso//EjemploRecursos//Fotitos";
 
-
 			try {
 				byte[] bytesImages = avatar.getBytes();
 
@@ -113,10 +112,7 @@ public class MainController implements Serializable {
 	
 	
 	@PostMapping("/formularioLogin")
-	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {
-		
-		
-		
+	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
 		return "redirect:/landingPage";
 	}
 
