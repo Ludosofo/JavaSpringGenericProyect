@@ -50,6 +50,7 @@ public class MainController implements Serializable {
 	@Autowired
 	private IOfertaServ ofertaService;
 
+	// Cambio para testear
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina
 	@GetMapping()
 	public ModelAndView getIndex() {
