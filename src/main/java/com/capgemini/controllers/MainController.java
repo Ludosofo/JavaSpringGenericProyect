@@ -56,6 +56,7 @@ public class MainController implements Serializable {
 	public ModelAndView getIndex() {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
+		mav.addObject("usuario", new Usuario()); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAll());
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
@@ -63,18 +64,49 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro
 	@GetMapping("/register")
-	public String saveUsuario(Model model) {
+	public String saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, @RequestParam (name="file") MultipartFile avatar, Model model) {
 		model.addAttribute("usuario", new Usuario());
-		return "registroUsuario";
+		usuarioService.save(usuario);
+		System.out.println(usuario);
+		return "index";
 	}
 
+
+	// Intentar logearte
+	@GetMapping("/login")
+	public String verifyCredentials() {
+		// TODO: Verificar credenciales
+		return "redirect:/landingPage";
+	}
+	
+	
+	@PostMapping("/formularioLogin")
+	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
+		return "redirect:/landingPage";
+	}
+
+	@GetMapping("/getImgByUser/{id}")
+	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
+		String userImgURL = defaultUserURL;
+		String userImgCandidate = usuarioService.getImgByUser(id);
+		if (userImgCandidate != "") {
+			userImgURL = userImgCandidate;
+		}
+		return userImgURL;
+	}
+
+}
+
+
+/*
+
 	@PostMapping("/formularioRegistro")
-	public String formularioRegistro(@ModelAttribute(name = "usuario") Usuario usuario, @RequestParam (name="file") MultipartFile avatar) {
+	public String formularioRegistro() {
 
 		if (!avatar.isEmpty()) {
 
 			// Ruta absoluta
-			String rutaAbsoluta = "//home//curso//EjemploRecursos//Fotitos";
+			
 
 			try {
 				byte[] bytesImages = avatar.getBytes();
@@ -102,28 +134,4 @@ public class MainController implements Serializable {
 		return "redirect:/lemonApp";
 
 	}
-
-	// Intentar logearte
-	@GetMapping("/login")
-	public String verifyCredentials() {
-		// TODO: Verificar credenciales
-		return "redirect:/landingPage";
-	}
-	
-	
-	@PostMapping("/formularioLogin")
-	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
-		return "redirect:/landingPage";
-	}
-
-	@GetMapping("/getImgByUser/{id}")
-	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
-		String userImgURL = defaultUserURL;
-		String userImgCandidate = usuarioService.getImgByUser(id);
-		if (userImgCandidate != "") {
-			userImgURL = userImgCandidate;
-		}
-		return userImgURL;
-	}
-
-}
+	 */

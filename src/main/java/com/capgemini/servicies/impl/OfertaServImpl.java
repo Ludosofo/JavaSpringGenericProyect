@@ -18,25 +18,24 @@ public class OfertaServImpl implements IOfertaServ {
 	@Override
 	public List<Oferta> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return daoOferta.findAll();
 	}
 
 	@Override
 	public Oferta findById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return daoOferta.getById(id);
 	}
 
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-		
+		daoOferta.deleteById(id);
 	}
 
 	@Override
 	public void save(Oferta oferta) {
 		// TODO Auto-generated method stub
-		
+		daoOferta.save(oferta);		
 	}
-
 }

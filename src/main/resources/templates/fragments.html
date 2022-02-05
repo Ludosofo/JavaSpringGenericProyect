@@ -1,12 +1,12 @@
 
-<form th:fragment="formLogin" th:action="@{/saveUsuario}" class="bg-white d-inline-flex border ml-1">
+<form th:fragment="formLogin" th:object="${usuario}" th:action="@{/saveUsuario}" class="bg-white d-inline-flex border ml-1">
     <fieldset>
         <legend>Inicia sesión</legend>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.alias}" name="login" placeholder="usuario o mail">
         </div>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.password}" name="pass" placeholder="contraseña">
+            <input class="form-input" th:value="${usuario.pass}" type="password" name="pass" placeholder="contraseña">
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Iniciar Sesion">
@@ -17,7 +17,7 @@
     </fieldset>
 </form>
 
-<form th:fragment="formRegister" class="bg-white d-inline-flex border">
+<form th:fragment="formRegister" th:object="${usuario}" th:action="@{/saveUsuario}" class="bg-white d-inline-flex border">
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
         <div class="mb-3">
