@@ -60,6 +60,8 @@ public class Usuario implements Serializable{
 	private String telefono;
 	private String geo;
 	
+	@NotNull
+	@NotEmpty
 	private String avatar; // Esto sería un dato obtenido de una imagen
 	
 	@OneToOne(cascade = CascadeType.ALL)

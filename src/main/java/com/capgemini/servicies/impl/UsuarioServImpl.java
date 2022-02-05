@@ -46,4 +46,10 @@ public class UsuarioServImpl implements IUsuarioServ{
 		return "TODO: UsuarioServImpl.getImgByUser(${id})";
 	}
 
+	@Override
+	public void guardaUsuario(Usuario usuario) {
+		daoUsuario.save(usuario);
+		
+	}
+
 }
