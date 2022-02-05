@@ -36,6 +36,7 @@ public class Usuario implements Serializable{
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	private String alias;
 	
+	/*
 	@NotNull
 	@NotEmpty(message = "ERROR su nombre no puede estar vacio")
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
@@ -45,7 +46,8 @@ public class Usuario implements Serializable{
 	@NotEmpty(message = "ERROR su apellidos no puede estar vacio")
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	private String apellidos;
-	
+	*/
+
 	@NotNull
 	@NotEmpty(message = "ERROR su password no puede estar vacio")
 	@Size( min = 8, message = "El password tiene que tener minimo 8 caracteres")
@@ -59,9 +61,6 @@ public class Usuario implements Serializable{
 	// Estos atributos pueden ser null
 	private String telefono;
 	private String geo;
-	
-	@NotNull
-	@NotEmpty
 	private String avatar; // Esto sería un dato obtenido de una imagen
 	
 	@OneToOne(cascade = CascadeType.ALL)
