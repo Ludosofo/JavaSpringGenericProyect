@@ -17,28 +17,21 @@
     </fieldset>
 </form>
 
-<form th:fragment="formRegister" th:object="${usuario}" th:action="@{/saveUsuario}" class="bg-white d-inline-flex border">
+<form th:fragment="formRegister" th:object="${usuario}" th:action="@{/register}" class="bg-white d-inline-flex border">
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
-
-        <label class="form-label">Nick:</label>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="Nick de usuario">
         </div>
-        <label class="form-label">Nombre:</label>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.nombre}" name="alias" placeholder="Nombre">
         </div>
-        <label class="form-label">Apellidos:</label>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.apellidos}" name="apellidos" placeholder="apellidos">
         </div>
-        <label class="form-label">Contraseña:</label>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.pass}" name="pass" placeholder="contraseña">
         </div>
-
-        <label class="form-label">Confirma tu contraseña:</label>
         <div class="mb-3">
             <input class="form-input" th:value="${usuario.pass}" name="pass" placeholder="contraseña">
         </div>

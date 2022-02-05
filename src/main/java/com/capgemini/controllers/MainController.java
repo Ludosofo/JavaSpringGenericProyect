@@ -64,11 +64,16 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro
 	@GetMapping("/register")
-	public String saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, @RequestParam (name="file") MultipartFile avatar, Model model) {
-		model.addAttribute("usuario", new Usuario());
+	public void saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model) {
+		System.out.println(">> saveUsuario");
+
+		// Set datos del usuario
+		// Usuario(Long id, String alias, nombre, apellidos, pass, mail, telefono, UsuarioImage)
+		// Usuario usuario = new Usuario();
+
 		usuarioService.save(usuario);
 		System.out.println(usuario);
-		return "index";
+		this.getIndex();
 	}
 
 
@@ -93,6 +98,10 @@ public class MainController implements Serializable {
 			userImgURL = userImgCandidate;
 		}
 		return userImgURL;
+	}
+	
+	@GetMapping("saveAvatar")
+	public void saveImg(@RequestParam (name="file") MultipartFile avatar){
 	}
 
 }
