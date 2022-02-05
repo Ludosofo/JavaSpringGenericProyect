@@ -120,13 +120,6 @@ public class MainController implements Serializable {
 		return "redirect:/landingPage";
 	}
 
-	
-
-
-		
-		
-
-
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
 		String userImgURL = defaultUserURL;
