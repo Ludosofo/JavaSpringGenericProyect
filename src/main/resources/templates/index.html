@@ -13,6 +13,7 @@
         .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 4px 4px;}
         .title-large{ font-size: 9em; text-align: center; margin: 16px auto 24px; }
         form{ padding: 12px; border: 1px solid black; border-radius: 12px; }
+        
     </style>
 </head>
 <body class="lemon">
@@ -29,7 +30,7 @@
     <div>Usuarios registrados</div>
     <ul>
         <li th:each="u : ${listaUsuarios}">
-            <span th:text="${u.nombre} +' '+ ${u.apellidos}"></span>
+            <span th:text="${u.alias}"></span>
         </li>
     </ul>
 </body>

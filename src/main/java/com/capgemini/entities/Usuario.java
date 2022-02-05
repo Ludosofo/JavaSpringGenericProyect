@@ -59,7 +59,7 @@ public class Usuario implements Serializable{
 	private String mail;
 
 	// Estos atributos pueden ser null
-	private String telefono;
+	// private String telefono;
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
 	
