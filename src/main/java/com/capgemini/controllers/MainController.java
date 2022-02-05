@@ -56,24 +56,33 @@ public class MainController implements Serializable {
 	public ModelAndView getIndex() {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("usuario", new Usuario()); // <---- Necesario para que Thymeleaf sepa los datos que recoge
+
+		// Usuario precargado
+		Usuario usuarioDefault = new Usuario();
+		usuarioDefault.setAlias("Nick89");
+		usuarioDefault.setNombre("Nombre");
+		usuarioDefault.setPass("password");
+		usuarioDefault.setMail("correo@gmail.com");
+		usuarioDefault.setApellidos("Apellidos");
+
+		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAll());
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
 
 	// Procesamiento del registro
-	@GetMapping("/register")
-	public void saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model) {
-		System.out.println(">> saveUsuario");
-
-		// Set datos del usuario
-		// Usuario(Long id, String alias, nombre, apellidos, pass, mail, telefono, UsuarioImage)
-		// Usuario usuario = new Usuario();
-
+	@PostMapping("/register")
+	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model) {
+		
 		usuarioService.save(usuario);
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("redirect", "http://localhost:8080");
+		mav.addObject("mensaje", "Usuario registrado correctamente");
+
 		System.out.println(usuario);
-		this.getIndex();
+		return mav;
 	}
 
 

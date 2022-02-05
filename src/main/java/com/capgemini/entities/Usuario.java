@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -36,21 +37,21 @@ public class Usuario implements Serializable{
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	private String alias;
 	
-	/*
-	@NotNull
-	@NotEmpty(message = "ERROR su nombre no puede estar vacio")
-	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
+	// @NotNull
+	// @NotEmpty(message = "ERROR su nombre no puede estar vacio")
+	// @Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
+	@Null
 	private String nombre;
 	
-	@NotNull
-	@NotEmpty(message = "ERROR su apellidos no puede estar vacio")
-	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
+	//@NotNull
+	//@NotEmpty(message = "ERROR su apellidos no puede estar vacio")
+	//@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
+	@Null
 	private String apellidos;
-	*/
 
 	@NotNull
 	@NotEmpty(message = "ERROR: su password no puede estar vacio")
-	@Size( min = 8, message = "ERROR: El password tiene que tener minimo 6 caracteres")
+	@Size( min = 6, message = "ERROR: El password tiene que tener minimo 6 caracteres")
 	private String pass; // TODO: Investigar sobre seguridad
 	
 	// Añadimos un regex para la comprobación del email
