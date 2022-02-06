@@ -1,7 +1,10 @@
 package com.capgemini.servicies.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -55,10 +58,21 @@ public class UsuarioServImpl implements IUsuarioServ{
 		
 	}
 
+	// PROBLEM: Intento hacer .sorted(Comparator.comparing(e->e.getId())) pero no funka
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
-		daoUsuario.findAll();
-		return null;
+		// return daoUsuario.findAllByOrderByIdAsc();
+		// return daoUsuario.findAll().stream().sorted( Comparator.comparingInt( Usuario::getId()  )).collect(Collectors.toList());
+		// return daoUsuario.findAll().stream().sorted(e->e.getId()).collect(Collectors.toList());
+
+		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId)).collect(Collectors.toList());
+		/*
+		List result = list.stream().sorted((o1, o2)->o1.getItem().getValue().
+                                   compareTo(o2.getItem().getValue())).
+                                   collect(Collectors.toList());
+								    */
+		// .sorted(Comparator.comparing()
+			// .collect(Collectors.toList());
 	}
 
 }
