@@ -57,22 +57,10 @@ public class UsuarioServImpl implements IUsuarioServ{
 		daoUsuario.save(usuario);
 		
 	}
-
-	// PROBLEM: Intento hacer .sorted(Comparator.comparing(e->e.getId())) pero no funka
+	
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
-		// return daoUsuario.findAllByOrderByIdAsc();
-		// return daoUsuario.findAll().stream().sorted( Comparator.comparingInt( Usuario::getId()  )).collect(Collectors.toList());
-		// return daoUsuario.findAll().stream().sorted(e->e.getId()).collect(Collectors.toList());
-
-		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId)).collect(Collectors.toList());
-		/*
-		List result = list.stream().sorted((o1, o2)->o1.getItem().getValue().
-                                   compareTo(o2.getItem().getValue())).
-                                   collect(Collectors.toList());
-								    */
-		// .sorted(Comparator.comparing()
-			// .collect(Collectors.toList());
+		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
 
 }
