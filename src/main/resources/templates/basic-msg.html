@@ -8,16 +8,17 @@
     </head>
     <body>
         <h1 th:text="${mensaje}">${mensaje}</h1>
+        <div>Redireccionando en 3 segundos a:</div>
         <div id="url" th:text="${redirect}">http://localhost:8080/</div>
     </body>
     <script>
         setInterval(function () {
             url = this.getUrl();
             window.location.href = url;
-        }, 30000);
+        }, 3000);
 
         function getUrl(){
-            return document.querySelector("#url").text;
+            return document.querySelector("#url").textContent;
         }
     </script>
 </html>
