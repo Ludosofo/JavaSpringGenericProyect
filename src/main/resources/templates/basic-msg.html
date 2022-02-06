@@ -12,8 +12,12 @@
     </body>
     <script>
         setInterval(function () {
-            url = document.querySelector("#url").text;
+            url = this.getUrl();
             window.location.href = url;
-        }, 3000);    
+        }, 30000);
+
+        function getUrl(){
+            return document.querySelector("#url").text;
+        }
     </script>
 </html>
