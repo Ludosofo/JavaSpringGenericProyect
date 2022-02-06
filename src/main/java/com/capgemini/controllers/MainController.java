@@ -14,6 +14,7 @@ import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
 
+import org.apache.catalina.util.URLEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,11 @@ public class MainController implements Serializable {
 			mav.addObject("miliseconds", "9000");
 		}
 
-		response.addCookie( new Cookie("Test","Soy una cookie"));
+		// Alguien intento arreglar esto con URLEncoder y no funciona aquí
+		// https://stackoverflow.com/questions/38687210/error-with-cookie-value-when-adding-a-new-spring-session/46702343#46702343
+		
+		// response.addCookie( new Cookie("Test", URLEncoder.encode( "Soy una cookie", "UTF-8" ) ));
+		response.addCookie( new Cookie("Test","DATO")); // Dato guardado pero no puede contener espacios
 		// JAVA no me permite generar una cookie con este metodo FUCK!!!
 		System.out.println(usuario);
 		return mav;
