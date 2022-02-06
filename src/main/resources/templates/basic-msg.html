@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mensaje & Redirección</title>
-    </head>
-    <body>
-        <h1 th:text="${mensaje}">${mensaje}</h1>
-        <div>Redireccionando a: <a id="url" th:href="${redirect}" th:text="${redirect}">url</a></div>
-    </body>
-    <script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje & Redirección</title>
+    <style>
+        body{ background-color: yellow; }
+        h1{ font-size: 2em; text-align: center; }
+        div{ text-align: center; }
+    </style>
+</head>
 
-        console.log("Hemos pasado por las imagenes de redirección");
+<body>
+    <h1 th:text="${mensaje}">${mensaje}</h1>
+    <div>Redireccionando a: <a id="url" th:href="${redirect}" th:text="${redirect}">url</a></div>
+    <div id="miliseconds" th:text="${miliseconds}"></div>
+</body>
+<script>
+    setInterval(() => {
+        let sec = document.querySelector("#miliseconds").textContent;
         setInterval(function () {
-            url = this.getUrl();
+            let url = document.querySelector("#url").textContent;    
             window.location.href = url;
-        }, 3000);
+        }, sec);
 
-        function getUrl(){
-            return document.querySelector("#url").textContent;
-        }
-    </script>
+    }, 1000);
+</script>
+
 </html>

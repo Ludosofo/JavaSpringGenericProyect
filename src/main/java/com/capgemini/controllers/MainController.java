@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
@@ -61,11 +64,13 @@ public class MainController implements Serializable {
 
 		// Usuario precargado
 		Usuario usuarioDefault = new Usuario();
+		/*
 		usuarioDefault.setAlias("Nick89");
 		usuarioDefault.setNombre("Nombre");
 		usuarioDefault.setPass("password");
 		usuarioDefault.setMail("correo@gmail.com");
 		usuarioDefault.setApellidos("Apellidos");
+		*/
 
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
@@ -75,14 +80,21 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro
 	@PostMapping("/register")
-	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model) {
-		
-		usuarioService.save(usuario);
-
+	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario, Model model) {
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
-		mav.addObject("mensaje", "Usuario registrado correctamente");
 
+		try {
+			usuarioService.save(usuario);
+			mav.addObject("mensaje", "Usuario registrado correctamente");
+			mav.addObject("miliseconds", "2000");	
+		} catch (Exception e) {
+			mav.addObject("mensaje", e.getMessage() );
+			mav.addObject("miliseconds", "9000");
+		}
+
+		response.addCookie( new Cookie("Test","Soy una cookie"));
+		// JAVA no me permite generar una cookie con este metodo FUCK!!!
 		System.out.println(usuario);
 		return mav;
 	}
@@ -90,9 +102,12 @@ public class MainController implements Serializable {
 	// Confirmamos el usuario y la contraseña ( ya la cifraremos )
 	// Confirm user and password
 	@PostMapping("checkUsuario")
-	public ModelAndView checkUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model){
-		// usuarioService.
-		
+	public ModelAndView checkUsuario(
+		HttpServletResponse response,
+		@ModelAttribute(name = "usuario") Usuario usuario,
+		Model model
+	){
+		response.addCookie( new Cookie("Test","Soy una cookie de prueba"));		
 		ModelAndView mav = new ModelAndView("home");
 		return mav;
 	}
@@ -123,6 +138,7 @@ public class MainController implements Serializable {
 	@GetMapping("saveAvatar")
 	public void saveImg(@RequestParam (name="file") MultipartFile avatar){
 	}
+
 
 }
 
