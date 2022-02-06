@@ -7,6 +7,7 @@ import java.util.List;
 import com.capgemini.entities.Usuario;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 
 public interface IUsuarioServ {
     public List<Usuario> findAll();
@@ -17,4 +18,6 @@ public interface IUsuarioServ {
     public void save(Usuario oferta);
     public String getImgByUser(long id);
     public void guardaUsuario(Usuario usuario);
+
+    public Usuario findUsuarioByAliasAndPass(String alias, String pass);
 }

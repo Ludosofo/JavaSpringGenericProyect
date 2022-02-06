@@ -87,6 +87,15 @@ public class MainController implements Serializable {
 		return mav;
 	}
 
+	// Confirmamos el usuario y la contraseña ( ya la cifraremos )
+	// Confirm user and password
+	@PostMapping("checkUsuario")
+	public ModelAndView checkUsuario(@ModelAttribute(name = "usuario") Usuario usuario, Model model){
+		// usuarioService.
+		
+		ModelAndView mav = new ModelAndView("home");
+		return mav;
+	}
 
 	// Intentar logearte
 	@GetMapping("/login")

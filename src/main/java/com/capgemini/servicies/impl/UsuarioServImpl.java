@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.IUsuarioDao;
@@ -61,6 +64,13 @@ public class UsuarioServImpl implements IUsuarioServ{
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
 		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
+	}
+
+	@Override
+	@Query("SELECT u FROM Usuario u WHERE u.alias = ?1 and u.pass = ?2")
+	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
+		// EntityManager.createQuery(query).getResultList();
+		return null;
 	}
 
 }
