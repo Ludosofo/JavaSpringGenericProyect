@@ -14,6 +14,8 @@ import com.capgemini.servicies.IUsuarioServ;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +68,7 @@ public class MainController implements Serializable {
 		usuarioDefault.setApellidos("Apellidos");
 
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
-		mav.addObject("listaUsuarios", usuarioService.findAll());
+		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
@@ -77,7 +79,7 @@ public class MainController implements Serializable {
 		
 		usuarioService.save(usuario);
 
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		mav.addObject("mensaje", "Usuario registrado correctamente");
 

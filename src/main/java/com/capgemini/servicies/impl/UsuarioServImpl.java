@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.IUsuarioDao;
@@ -38,10 +39,10 @@ public class UsuarioServImpl implements IUsuarioServ{
 	public void save(Usuario oferta) {
 		// TODO Auto-generated method stub
 		daoUsuario.save(oferta);
-		
+
 	}
 
-	// TODO: Buscar URL respecto al usuario, aunque podriamos usar UsuarioImagenServImpl no sé
+	// TODO: Creo que habia la anotation @query y con ? se le podian enviar las variables
 	@Override
 	public String getImgByUser(long id) {
 		// TODO Auto-generated method stub
@@ -52,6 +53,12 @@ public class UsuarioServImpl implements IUsuarioServ{
 	public void guardaUsuario(Usuario usuario) {
 		daoUsuario.save(usuario);
 		
+	}
+
+	@Override
+	public List<Usuario> findAllByOrderByIdAsc() {
+		daoUsuario.findAll();
+		return null;
 	}
 
 }
