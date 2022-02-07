@@ -66,11 +66,4 @@ public class UsuarioServImpl implements IUsuarioServ{
 		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
 
-	@Override
-	@Query("SELECT u FROM Usuario u WHERE u.alias = ?1 and u.pass = ?2")
-	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
-		// EntityManager.createQuery(query).getResultList();
-		return null;
-	}
-
 }
