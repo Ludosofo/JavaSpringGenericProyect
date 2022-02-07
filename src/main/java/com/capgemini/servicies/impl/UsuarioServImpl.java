@@ -68,7 +68,7 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
-		// TODO Auto-generated method stub
+		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
 		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
 	}
 

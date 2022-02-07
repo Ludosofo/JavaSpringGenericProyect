@@ -3,10 +3,10 @@
     <fieldset>
         <legend>Inicia sesión</legend>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.alias}" name="login" placeholder="usuario o mail">
+            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="usuario o mail">
         </div>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.pass}" type="password" name="pass" placeholder="contraseña">
+            <input class="form-input" th:value="${usuario.pass}" type="pass" name="pass" placeholder="contraseña">
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Iniciar Sesion">
