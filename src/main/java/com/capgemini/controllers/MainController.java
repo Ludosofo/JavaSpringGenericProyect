@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.capgemini.entities.Usuario;
@@ -159,6 +160,18 @@ public class MainController implements Serializable {
 	
 	@GetMapping("saveAvatar")
 	public void saveImg(@RequestParam (name="file") MultipartFile avatar){
+	}
+
+	// Limpieza de cookies
+	private void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null)
+			for (Cookie cookie : cookies) {
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				resp.addCookie(cookie);
+			}
 	}
 
 
