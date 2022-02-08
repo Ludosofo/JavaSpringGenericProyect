@@ -1,4 +1,5 @@
 
+<!-- formulario de login dirige a checkUsuario que obtendrá datos y configurará las cookies -->
 <form th:fragment="formLogin" th:object="${usuario}" method="post" th:action="@{/checkUsuario}" class="bg-white d-inline-flex border ml-1">
     <fieldset>
         <legend>Inicia sesión</legend>

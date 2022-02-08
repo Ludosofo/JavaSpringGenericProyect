@@ -49,7 +49,7 @@ public class MainController implements Serializable {
 	 */
 
 	private static final Log LOG = LogFactory.getLog(MainController.class);
-	private static final String defaultUserURL = ""; // TODO
+	private static final String defaultUserURL = "";
 	private Path imagesURL = Paths.get("src//main//resources//static/images");
 
 	@Autowired
@@ -66,13 +66,11 @@ public class MainController implements Serializable {
 
 		// Usuario precargado
 		Usuario usuarioDefault = new Usuario();
-		/*
-		usuarioDefault.setAlias("Nick89");
+		usuarioDefault.setAlias("Nick");
 		usuarioDefault.setNombre("Nombre");
 		usuarioDefault.setPass("password");
 		usuarioDefault.setMail("correo@gmail.com");
 		usuarioDefault.setApellidos("Apellidos");
-		*/
 
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
@@ -95,13 +93,9 @@ public class MainController implements Serializable {
 			mav.addObject("miliseconds", "9000");
 		}
 
-		// Alguien intento arreglar esto con URLEncoder y no funciona aquí
+		// Alguien intento que se pudiera escribir más de 1 caracter conURLEncoder pero no funciona
 		// https://stackoverflow.com/questions/38687210/error-with-cookie-value-when-adding-a-new-spring-session/46702343#46702343
-		
 		// response.addCookie( new Cookie("Test", URLEncoder.encode( "Soy una cookie", "UTF-8" ) ));
-		response.addCookie( new Cookie("Test","DATO")); // Dato guardado pero no puede contener espacios
-		// JAVA no me permite generar una cookie con este metodo FUCK!!!
-		System.out.println(usuario);
 		return mav;
 	}
 
@@ -123,24 +117,21 @@ public class MainController implements Serializable {
 			ModelAndView mav = new ModelAndView("index"); // Te echamos a la pagina de entrada
 			return mav;
 		}
-		// ¿Que debería recibir en caso de no encontrarlo?
-		// if()
 		
-		// System.out.println(">>> Usuario recibido");
-		// System.out.println(usuario.toString());
-				
+		// Creamos la cookies
 		response.addCookie( new Cookie("getAlias", usuario.getAlias()));
 		response.addCookie( new Cookie("getPass",usuario.getPass()));
 		ModelAndView mav = new ModelAndView("home");
+
 		return mav;
 	}
 
-	// // Intentar logearte
-	// @GetMapping("/login")
-	// public String verifyCredentials() {
-	// 	// TODO: Verificar credenciales
-	// 	return "redirect:/home";
-	// }
+	@GetMapping("/login")
+	public String verifyCredentials() {
+
+		usuarioService.findUsuarioByAliasAndPass(alias, pass)
+		return "redirect:/home";
+	}
 	
 	
 	// @PostMapping("/formularioLogin")
@@ -179,39 +170,23 @@ public class MainController implements Serializable {
 
 
 /*
-
+// SUBIDA DE IMAGEN
 	@PostMapping("/formularioRegistro")
 	public String formularioRegistro() {
-
 		if (!avatar.isEmpty()) {
-
 			// Ruta absoluta
-			
-
 			try {
 				byte[] bytesImages = avatar.getBytes();
-
 				// Ruta completa, que incluye el nombre original de la imagen
-
 				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + avatar.getOriginalFilename());
-
 				LOG.info("ruta completa la imagen" + rutaCompleta);
-
 				Files.write(rutaCompleta, bytesImages);
-
 				usuario.setAvatar(avatar.getOriginalFilename());
-
 				usuarioService.guardaUsuario(usuario);
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
 			}
-
 		}
-
-		
 		return "redirect:/lemonApp";
-
 	}
-	 */
+	*/
