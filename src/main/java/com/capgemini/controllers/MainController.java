@@ -135,18 +135,18 @@ public class MainController implements Serializable {
 		return mav;
 	}
 
-	// Intentar logearte
-	@GetMapping("/login")
-	public String verifyCredentials() {
-		// TODO: Verificar credenciales
-		return "redirect:/landingPage";
-	}
+	// // Intentar logearte
+	// @GetMapping("/login")
+	// public String verifyCredentials() {
+	// 	// TODO: Verificar credenciales
+	// 	return "redirect:/home";
+	// }
 	
 	
-	@PostMapping("/formularioLogin")
-	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
-		return "redirect:/landingPage";
-	}
+	// @PostMapping("/formularioLogin")
+	// public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
+	// 	return "redirect:/login";
+	// }
 
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
