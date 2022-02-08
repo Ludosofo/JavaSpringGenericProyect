@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 @Controller
 @RequestMapping("/")
 public class MainController implements Serializable {
@@ -80,13 +80,12 @@ public class MainController implements Serializable {
 		return mav;
 	}
 
-	// Procesamiento del registro
+	// Procesamiento del registro y lanzamiento a pagina de redirección
 	@PostMapping("/register")
 	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario,
 			Model model) {
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
-
 		try {
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
@@ -95,43 +94,8 @@ public class MainController implements Serializable {
 			mav.addObject("mensaje", e.getMessage());
 			mav.addObject("miliseconds", "9000");
 		}
-
-		// Alguien intento que se pudiera escribir más de 1 caracter conURLEncoder pero
-		// no funciona
-		// https://stackoverflow.com/questions/38687210/error-with-cookie-value-when-adding-a-new-spring-session/46702343#46702343
-		// response.addCookie( new Cookie("Test", URLEncoder.encode( "Soy una cookie",
-		// "UTF-8" ) ));
 		return mav;
 	}
-
-	// Confirmamos el usuario y la contraseña ( ya la cifraremos )
-	// Confirm user and password
-	// @PostMapping("checkUsuario")
-	// public ModelAndView checkUsuario(
-	// HttpServletResponse response,
-	// @ModelAttribute(name = "usuario") Usuario request,
-	// Model model
-	// ){
-
-	// // Hacemos una petición al service con la configuración de llamada
-	// Usuario usuario =
-	// usuarioService.findUsuarioByAliasAndPass(request.getAlias(),
-	// request.getPass());
-	// if(usuario!=null){
-	// usuario.toString();
-	// }else{
-	// System.out.println("No tenemos usuario");
-	// ModelAndView mav = new ModelAndView("index"); // Te echamos a la pagina de
-	// entrada
-	// return mav;
-	// }
-
-	// // Creamos la cookies
-
-	// ModelAndView mav = new ModelAndView("home");
-
-	// return mav;
-	// }
 
 	@PostMapping("/checkUsuario")
 	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request,
