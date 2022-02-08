@@ -33,6 +33,3 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/application.properties
-/home/curso/.workspace/BackendProyectoFinal/src/main/resources/application.properties
-src/main/resources/application.properties
-src/main/resources/application.properties
