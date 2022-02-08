@@ -67,10 +67,9 @@ public class UsuarioServImpl implements IUsuarioServ{
 	}
 
 	@Override
-	@Query("SELECT u FROM Usuario u WHERE u.alias = ?1 and u.pass = ?2")
 	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
-		// EntityManager.createQuery(query).getResultList();
-		return null;
+		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
+		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
 	}
 
 }

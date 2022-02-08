@@ -109,10 +109,27 @@ public class MainController implements Serializable {
 	@PostMapping("checkUsuario")
 	public ModelAndView checkUsuario(
 		HttpServletResponse response,
-		@ModelAttribute(name = "usuario") Usuario usuario,
+		@ModelAttribute(name = "usuario") Usuario request,
 		Model model
 	){
-		response.addCookie( new Cookie("Test","Soy una cookie de prueba"));		
+		
+		// Hacemos una petición al service con la configuración de llamada
+		Usuario usuario = usuarioService.findUsuarioByAliasAndPass(request.getAlias(), request.getPass());
+		if(usuario!=null){
+			usuario.toString();
+		}else{
+			System.out.println("No tenemos usuario");
+			ModelAndView mav = new ModelAndView("index"); // Te echamos a la pagina de entrada
+			return mav;
+		}
+		// ¿Que debería recibir en caso de no encontrarlo?
+		// if()
+		
+		// System.out.println(">>> Usuario recibido");
+		// System.out.println(usuario.toString());
+				
+		response.addCookie( new Cookie("getAlias", usuario.getAlias()));
+		response.addCookie( new Cookie("getPass",usuario.getPass()));
 		ModelAndView mav = new ModelAndView("home");
 		return mav;
 	}
