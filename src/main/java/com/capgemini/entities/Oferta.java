@@ -2,7 +2,7 @@ package com.capgemini.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,11 +35,11 @@ public class Oferta implements Serializable {
 	private long id;
 	
 	
-	
-	@ManyToOne
-	@NotNull
-	private OfertaStatus status;
-	
+//	
+//	@ManyToOne
+//	@NotNull
+//	private OfertaStatus status;
+//	
 	
 	@NotNull
 	@NotEmpty(message = "Inserte un título para su oferta")
@@ -51,16 +51,16 @@ public class Oferta implements Serializable {
 	@Size(min = 3, max = 400, message = "La descripción del producto debe contenter entre  3 y 400 caracteres")
 	private String descripcion;
 	
-	@NotNull
-	@NotEmpty(message = "Inserte una descripción para su oferta")
-	@Size(min = 3, max = 400, message = "La descripción del producto debe contenter entre  3 y 400 caracteres")
-	private Double precio;
 	
-	@ManyToOne
-	public Usuario usuario;
+	private String precio;
 	
-	@OneToMany(mappedBy="oferta")
-	public List<OfertaImagenes> ofertaImagenes;
+//	@ManyToOne
+//	public Usuario usuario;
+	
+//	@OneToMany(mappedBy="oferta")
+//	public List<OfertaImagenes> ofertaImagenes;
+	
+	public String imagenes;
 	
 	
 } 

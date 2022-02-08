@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h3>Actualizar Producto</h3>
+	<hr />
+
+	<form  th:action="@{/modificaProducto}" th:object="${updateOferta}" method="post">
+		<p class="text">
+			<label></label> <input type="hidden" th:field="*{id}" />
+		</p>
+		<p class="text">
+			<label>Titulo:</label> <input type="text" th:field="*{titulo}" />
+		</p>
+		<p class="text">
+			<label>Descripcion:</label> <input type="text" th:field="*{descripcion}" />
+		</p>
+		<p class="text">
+			<label>Precio:</label> <input type="text" th:field="*{precio}" />
+		</p>
+		
+		<p>
+			<input type="submit" value="Modificar" />
+		</p>
+	</form>
+	
+</body>
+</html>

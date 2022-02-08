@@ -10,6 +10,8 @@ import java.util.Iterator;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+
+import com.capgemini.entities.Oferta;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
@@ -66,12 +68,11 @@ public class MainController implements Serializable {
 		// Usuario precargado
 		Usuario usuarioDefault = new Usuario();
 		/*
-		usuarioDefault.setAlias("Nick89");
-		usuarioDefault.setNombre("Nombre");
-		usuarioDefault.setPass("password");
-		usuarioDefault.setMail("correo@gmail.com");
-		usuarioDefault.setApellidos("Apellidos");
-		*/
+		 * usuarioDefault.setAlias("Nick89"); usuarioDefault.setNombre("Nombre");
+		 * usuarioDefault.setPass("password");
+		 * usuarioDefault.setMail("correo@gmail.com");
+		 * usuarioDefault.setApellidos("Apellidos");
+		 */
 
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
@@ -81,24 +82,26 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro
 	@PostMapping("/register")
-	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario, Model model) {
+	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario,
+			Model model) {
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 
 		try {
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
-			mav.addObject("miliseconds", "2000");	
+			mav.addObject("miliseconds", "2000");
 		} catch (Exception e) {
-			mav.addObject("mensaje", e.getMessage() );
+			mav.addObject("mensaje", e.getMessage());
 			mav.addObject("miliseconds", "9000");
 		}
 
 		// Alguien intento arreglar esto con URLEncoder y no funciona aquí
 		// https://stackoverflow.com/questions/38687210/error-with-cookie-value-when-adding-a-new-spring-session/46702343#46702343
-		
-		// response.addCookie( new Cookie("Test", URLEncoder.encode( "Soy una cookie", "UTF-8" ) ));
-		response.addCookie( new Cookie("Test","DATO")); // Dato guardado pero no puede contener espacios
+
+		// response.addCookie( new Cookie("Test", URLEncoder.encode( "Soy una cookie",
+		// "UTF-8" ) ));
+		response.addCookie(new Cookie("Test", "DATO")); // Dato guardado pero no puede contener espacios
 		// JAVA no me permite generar una cookie con este metodo FUCK!!!
 		System.out.println(usuario);
 		return mav;
@@ -107,12 +110,9 @@ public class MainController implements Serializable {
 	// Confirmamos el usuario y la contraseña ( ya la cifraremos )
 	// Confirm user and password
 	@PostMapping("checkUsuario")
-	public ModelAndView checkUsuario(
-		HttpServletResponse response,
-		@ModelAttribute(name = "usuario") Usuario usuario,
-		Model model
-	){
-		response.addCookie( new Cookie("Test","Soy una cookie de prueba"));		
+	public ModelAndView checkUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario,
+			Model model) {
+		response.addCookie(new Cookie("Test", "Soy una cookie de prueba"));
 		ModelAndView mav = new ModelAndView("home");
 		return mav;
 	}
@@ -123,10 +123,9 @@ public class MainController implements Serializable {
 		// TODO: Verificar credenciales
 		return "redirect:/landingPage";
 	}
-	
-	
+
 	@PostMapping("/formularioLogin")
-	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {		
+	public String formularioLogin(@ModelAttribute(name = "usuario") Usuario usuario) {
 		return "redirect:/landingPage";
 	}
 
@@ -139,49 +138,99 @@ public class MainController implements Serializable {
 		}
 		return userImgURL;
 	}
-	
+
 	@GetMapping("saveAvatar")
-	public void saveImg(@RequestParam (name="file") MultipartFile avatar){
+	public void saveImg(@RequestParam(name = "file") MultipartFile avatar) {
+	}
+	
+
+	// PARA MOSTRAR LA LISTA DE PRODUCTOS
+	
+	
+	@GetMapping("/listaProductos")
+	public ModelAndView listaProductos(@ModelAttribute(name = "oferta") Oferta oferta) {
+		
+//		oferta.toString();
+		ModelAndView mav = new ModelAndView("listaProductos");
+
+		mav.addObject("listaProductos", ofertaService.findAll());
+		mav.addObject("oferta", new Oferta());
+			
+		
+		return mav;
+	}
+	
+	// PARA CREAR/MODIFICAR UN PRODUCTO
+	
+	
+	@GetMapping("/subeProducto")
+	public ModelAndView subirProducto(@ModelAttribute( name ="oferta") Oferta oferta) {
+		
+		ModelAndView mav = new ModelAndView("subeProducto");
+		mav.addObject("oferta", new Oferta());
+		
+		
+		return mav;
 	}
 
+	
+	@PostMapping("/crearProducto")
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta) { 
+			
+			
+//			, @RequestParam(name = "file") MultipartFile imagen) {
+//			
+//			if(! imagen.isEmpty()) {
+//					
+//				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
+//			
+//				
+//				try {
+//					byte[] bytesImages = imagen.getBytes();
+//					
+//					
+//					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+//					
+//					LOG.info("ruta completa la imgen" + rutaCompleta);
+//					
+//					Files.write(rutaCompleta, bytesImages);
+//					
+//					oferta.setImagenes(imagen.getOriginalFilename());
+//					ofertaService.save(oferta);
+//					
+//		
+//				} catch (IOException e) {
+//					
+//					e.printStackTrace();
+//				}
+//			}
+			
+			ofertaService.save(oferta);
+
+			
+		
+		return "redirect:/listaProductos";
+
+	}
+	
+	
+	@GetMapping("/modificaProducto/{id}")
+	public String formModificaProducto(@PathVariable (name = "id") Long id, Model model) {
+		
+		Oferta updateOferta = ofertaService.findById(id);
+		model.addAttribute("listaProductos", ofertaService.findAll());
+		model.addAttribute("updateOferta", updateOferta);
+		return "modificarProducto";
+	
+		
+	}
+	
+	@PostMapping("/modificaProducto")
+	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta) {
+		ofertaService.save(oferta);
+		return "redirect:/listaProductos";
+		
+	}
 
 }
 
-
-/*
-
-	@PostMapping("/formularioRegistro")
-	public String formularioRegistro() {
-
-		if (!avatar.isEmpty()) {
-
-			// Ruta absoluta
-			
-
-			try {
-				byte[] bytesImages = avatar.getBytes();
-
-				// Ruta completa, que incluye el nombre original de la imagen
-
-				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + avatar.getOriginalFilename());
-
-				LOG.info("ruta completa la imagen" + rutaCompleta);
-
-				Files.write(rutaCompleta, bytesImages);
-
-				usuario.setAvatar(avatar.getOriginalFilename());
-
-				usuarioService.guardaUsuario(usuario);
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-
-		
-		return "redirect:/lemonApp";
-
-	}
-	 */

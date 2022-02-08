@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LemonApp Ofertas</title>
+</head>
+<body>
+
+<h1> Lista de ofertas </h1>
+
+	<div th:each=" oferta : ${listaProductos}">
+		<h3 th:text="${oferta.titulo}"></h3>
+		<p th:text="${oferta.descripcion}"></p>
+		<div th:text="${oferta.precio} + '$'"></div>
+<!-- 		<img th:alt="{oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}"> -->
+		
+		<button type="submit">Comprar</button>
+	
+	<a th:href="@{/modificaProducto/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
+   
+   </div>
+   
+	<a th:href="@{/subeProducto}"><button>Subir producto</button></a>
+	
+	
+	
+	
+
+</body>
+</html>
