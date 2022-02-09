@@ -12,7 +12,7 @@
 		<h3 th:text="${oferta.titulo}"></h3>
 		<p th:text="${oferta.descripcion}"></p>
 		<div th:text="${oferta.precio} + '$'"></div>
-		<img th:alt="{oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+		<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
 		
 		<button type="submit">Comprar</button>
 	
