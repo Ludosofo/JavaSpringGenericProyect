@@ -175,39 +175,32 @@ public class MainController implements Serializable {
 
 	
 	@PostMapping("/crearProducto")
-	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta) { 
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, 
+			@RequestParam(name = "file") MultipartFile imagen) {
 			
+			if(! imagen.isEmpty()) {
+					
+				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
 			
-//			, @RequestParam(name = "file") MultipartFile imagen) {
-//			
-//			if(! imagen.isEmpty()) {
-//					
-//				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
-//			
-//				
-//				try {
-//					byte[] bytesImages = imagen.getBytes();
-//					
-//					
-//					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-//					
-//					LOG.info("ruta completa la imgen" + rutaCompleta);
-//					
-//					Files.write(rutaCompleta, bytesImages);
-//					
-//					oferta.setImagenes(imagen.getOriginalFilename());
-//					ofertaService.save(oferta);
-//					
-//		
-//				} catch (IOException e) {
-//					
-//					e.printStackTrace();
-//				}
-//			}
-			
-			ofertaService.save(oferta);
-
-			
+				
+				try {
+					byte[] bytesImages = imagen.getBytes();
+										
+					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+					
+					LOG.info("ruta completa la imgen" + rutaCompleta);
+					
+					Files.write(rutaCompleta, bytesImages);
+					
+					oferta.setImagenes(imagen.getOriginalFilename());
+					ofertaService.save(oferta);
+					
+		
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
 		
 		return "redirect:/listaProductos";
 
@@ -226,9 +219,35 @@ public class MainController implements Serializable {
 	}
 	
 	@PostMapping("/modificaProducto")
-	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta) {
-		ofertaService.save(oferta);
-		return "redirect:/listaProductos";
+	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
+		if(! imagen.isEmpty()) {
+			
+			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
+		
+			
+			try {
+				byte[] bytesImages = imagen.getBytes();
+									
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+				
+				LOG.info("ruta completa la imgen" + rutaCompleta);
+				
+				Files.write(rutaCompleta, bytesImages);
+				
+				oferta.setImagenes(imagen.getOriginalFilename());
+				ofertaService.save(oferta);
+				
+	
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+
+	
+	return "redirect:/listaProductos";
+
 		
 	}
 
