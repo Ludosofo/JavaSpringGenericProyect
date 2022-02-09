@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +64,7 @@ public class MainController implements Serializable {
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina
 
 	@GetMapping()
-	public ModelAndView getIndex() {
+	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
 
@@ -76,6 +78,10 @@ public class MainController implements Serializable {
 
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
+
+		
+		var attributeValue = request.getSession().getAttribute("MY_SESSION_MESSAGES");
+		mav.addObject("parametro_session", attributeValue);
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
@@ -105,6 +111,12 @@ public class MainController implements Serializable {
 
 		HttpSession session = request.getSession();
 		
+		
+		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+		messages.add("Mensaje 1");
+		messages.add("Mensaje 2");
+		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+
 		if (cuenta != null) {
 			// response.addCookie(new Cookie("user", usuario.getAlias()));
 			// response.addCookie(new Cookie("publicKey", "ASSSDSSDFSDFSFSDFSDFSDFSDFSSGGFDGDFSGDF"));

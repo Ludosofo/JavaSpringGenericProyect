@@ -26,6 +26,9 @@
         <div th:replace="fragments :: formRegister"></div>
     </div>
 
+    <div th:text="${parametro_session}">
+        PARAMETROS DE SESSIÓN
+    </div>
 
     <div>Usuarios registrados</div>
     <ul>
@@ -33,5 +36,9 @@
             <span th:text="${u.alias}"></span>
         </li>
     </ul>
+
+
+
+
 </body>
 </html>
