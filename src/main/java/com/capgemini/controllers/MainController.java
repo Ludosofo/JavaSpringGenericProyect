@@ -175,37 +175,34 @@ public class MainController implements Serializable {
 
 	
 	@PostMapping("/crearProducto")
-	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta) { 
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, 
+			@RequestParam(name = "file") MultipartFile imagen) {
 			
+			if(! imagen.isEmpty()) {
+					
+				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
 			
-//			, @RequestParam(name = "file") MultipartFile imagen) {
-//			
-//			if(! imagen.isEmpty()) {
-//					
-//				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
-//			
-//				
-//				try {
-//					byte[] bytesImages = imagen.getBytes();
-//					
-//					
-//					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-//					
-//					LOG.info("ruta completa la imgen" + rutaCompleta);
-//					
-//					Files.write(rutaCompleta, bytesImages);
-//					
-//					oferta.setImagenes(imagen.getOriginalFilename());
-//					ofertaService.save(oferta);
-//					
-//		
-//				} catch (IOException e) {
-//					
-//					e.printStackTrace();
-//				}
-//			}
+				
+				try {
+					byte[] bytesImages = imagen.getBytes();
+										
+					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+					
+					LOG.info("ruta completa la imgen" + rutaCompleta);
+					
+					Files.write(rutaCompleta, bytesImages);
+					
+					oferta.setImagenes(imagen.getOriginalFilename());
+					ofertaService.save(oferta);
+					
+		
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			}
 			
-			ofertaService.save(oferta);
+		
 
 			
 		
