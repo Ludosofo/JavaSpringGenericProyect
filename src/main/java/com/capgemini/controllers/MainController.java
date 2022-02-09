@@ -175,29 +175,20 @@ public class MainController implements Serializable {
 
 	
 	@PostMapping("/crearProducto")
-	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, 
-			@RequestParam(name = "file") MultipartFile imagen) {
-			
-			if(! imagen.isEmpty()) {
-					
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
+			if(!imagen.isEmpty()) {
 				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
-			
-				
 				try {
-					byte[] bytesImages = imagen.getBytes();
-										
+					byte[] bytesImages = imagen.getBytes();					
 					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-					
-					LOG.info("ruta completa la imgen" + rutaCompleta);
-					
+					LOG.info("ruta completa:" + rutaCompleta);
 					Files.write(rutaCompleta, bytesImages);
-					
 					oferta.setImagenes(imagen.getOriginalFilename());
+
+					System.out.println(">> Antes del error");
 					ofertaService.save(oferta);
-					
-		
 				} catch (IOException e) {
-					
+
 					e.printStackTrace();
 				}
 			}

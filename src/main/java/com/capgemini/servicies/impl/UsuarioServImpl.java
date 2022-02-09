@@ -57,11 +57,11 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public void guardaUsuario(Usuario usuario) {
-		daoUsuario.save(usuario);
-		
+		daoUsuario.save(usuario);	
 	}
 	
 	@Override
+	// Pone ASC pero es DESCENTE JAJSAJSJAJSJASJAJSJASAjaj! SOY SUBNORMAL!!!
 	public List<Usuario> findAllByOrderByIdAsc() {
 		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
