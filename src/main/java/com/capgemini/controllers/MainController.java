@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +36,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 @Controller
 @RequestMapping("/")
 public class MainController implements Serializable {
 
+	@PostConstruct
+	public void initialize() {
+		System.out.println(">>>>>> POST CONSTRUCT");
+	}
+
+	public void preHandle( HttpServletRequest request, HttpServletResponse response,  Object handler) throws Exception {
+		System.out.println(">>>> PRE HANDLE");
+	}
 	/*
 	 * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
 	 * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
@@ -65,7 +75,7 @@ public class MainController implements Serializable {
 
 	@GetMapping()
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
-		System.out.println("getIndex()");
+		System.out.println(">>>>>> GET INDEX");
 		ModelAndView mav = new ModelAndView("index");
 
 		// Usuario precargado
@@ -79,8 +89,7 @@ public class MainController implements Serializable {
 		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
 
-		
-		var attributeValue = request.getSession().getAttribute("MY_SESSION_MESSAGES");
+		var attributeValue = request.getSession().getAttribute("MY_USER");
 		mav.addObject("parametro_session", attributeValue);
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
@@ -90,6 +99,8 @@ public class MainController implements Serializable {
 	@PostMapping("/register")
 	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario,
 			Model model) {
+
+				System.out.println(">>>>>> SAVE USUARIO");
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
@@ -110,18 +121,15 @@ public class MainController implements Serializable {
 		ModelAndView mav = new ModelAndView();
 
 		HttpSession session = request.getSession();
-		
-		
-		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-		messages.add("Mensaje 1");
-		messages.add("Mensaje 2");
-		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+		request.getSession().setAttribute("MY_USER", cuenta.getAlias());
 
-		if (cuenta != null) {
+		if (cuenta.getAlias() != null) {
 			// response.addCookie(new Cookie("user", usuario.getAlias()));
-			// response.addCookie(new Cookie("publicKey", "ASSSDSSDFSDFSFSDFSDFSDFSDFSSGGFDGDFSGDF"));
+			// response.addCookie(new Cookie("publicKey",
+			// "ASSSDSSDFSDFSFSDFSDFSDFSDFSSGGFDGDFSGDF"));
 			session.setAttribute("JSESSIONID", "Session creada");
-			mav.addObject("user", cuenta.toString() );
+			mav.addObject("user", cuenta.toString());
+			mav.addObject("cookie", request.getSession().getAttribute("MY_USER"));
 			mav.setViewName("welcome");
 		} else {
 
@@ -136,7 +144,8 @@ public class MainController implements Serializable {
 			mav.setViewName("basic-msg");
 		}
 
-		// mav.addObject( "datos-session", request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);)
+		// mav.addObject( "datos-session",
+		// request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);)
 		return mav;
 	}
 

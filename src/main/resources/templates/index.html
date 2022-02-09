@@ -12,8 +12,8 @@
         .lemon{ background-color: yellow; }
         .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 4px 4px;}
         .title-large{ font-size: 9em; text-align: center; margin: 16px auto 24px; }
-        form{ padding: 12px; border: 1px solid black; border-radius: 12px; }
-        
+        form{ padding: 12px; border: 1px solid black; border-radius: 12px; top: 0px; flex: auto; }
+        .container{ flex: 1 1 auto; }
     </style>
 </head>
 <body class="lemon">
@@ -21,7 +21,7 @@
     <h2 class="text-center">Limones cerca de tu zona te están esperando</h2>
     <h2 class="text-center">¡Ven al bando de la huerta!</h2>
 
-    <div class="containter">
+    <div class="containter" align="center">
         <div th:replace="fragments :: formLogin"></div>
         <div th:replace="fragments :: formRegister"></div>
     </div>
