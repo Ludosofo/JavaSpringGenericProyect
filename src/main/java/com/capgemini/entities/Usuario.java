@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -21,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name="usuarios")
 public class Usuario implements Serializable{
 	
@@ -64,9 +65,8 @@ public class Usuario implements Serializable{
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private UsuarioImagen usuarioImage;
-	
+//	@OneToMany
+//	private Oferta oferta;
 	//@OneToMany(mappedBy = "valoracion")
 	//private List<Valoracion> nuestrasValoraciones; // Valoraciones de nuestro usuario
 	
