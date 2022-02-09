@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LemonApp - Sign up</title>
+</head>
+<body>
+
+
+
+	<h1>Registro en LemonApp</h1>
+
+	<form th:action="@{/formularioRegistro}" method="post"
+		th:object="${usuario}">
+
+		<p>
+			<input type="text" placeholder="Nombre" th:field="*{nombre}" required="required">
+		</p>
+		<p>
+			<input type="text" placeholder="Apellidos" th:field="*{apellidos}" required="required">
+		</p>
+
+		<p>
+			<input type="text" placeholder="Alias" th:field="*{alias}" required="required">
+		</p>
+
+		<p>
+			<input type="text" placeholder="Correo electrónico"
+				th:field="*{mail}" required="required">
+		</p>
+		<p>
+			<input type="text" placeholder="Telefono" th:field="*{telefono}" 
+			pattern="/(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})/g" required="required">
+		</p>
+
+		<p>
+
+			<label for="pwd">Contraseña:</label> 
+			<input type="password" id="pwd"
+				name="pwd" th:field="*{pass}" pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm">
+				
+<!-- 				- at least 8 characters -->
+<!-- - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number -->
+<!-- - Can contain special characters -->
+
+
+		</p>
+
+		<!-- 		<p> -->
+
+		<!-- 			<label for="pwd">Repita su contraseña:</label> <input type="password" id="pwd" -->
+		<!-- 				name="pwd"> -->
+
+		<!-- 		</p> -->
+
+		<p>
+		<label for="file">Avatar</label>
+			<input type="file" name="file" required="required">
+		</p>
+
+
+		<p>
+			<input type="submit" value="Registrarse"></input>
+		</p>
+
+	</form>
+
+
+</body>
+</html>

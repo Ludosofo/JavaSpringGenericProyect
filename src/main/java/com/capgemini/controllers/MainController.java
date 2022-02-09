@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+import com.capgemini.entities.Oferta;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
@@ -153,41 +155,105 @@ public class MainController implements Serializable {
 	@GetMapping("saveAvatar")
 	public void saveImg(@RequestParam(name = "file") MultipartFile avatar) {
 	}
+	
 
-	// Limpieza de cookies
-	private void eraseCookie(HttpServletRequest req, HttpServletResponse resp) {
-		Cookie[] cookies = req.getCookies();
-		if (cookies != null)
-			for (Cookie cookie : cookies) {
-				cookie.setValue("");
-				cookie.setPath("/");
-				cookie.setMaxAge(0);
-				resp.addCookie(cookie);
+	// PARA MOSTRAR LA LISTA DE PRODUCTOS
+	
+	
+	@GetMapping("/listaProductos")
+	public ModelAndView listaProductos(@ModelAttribute(name = "oferta") Oferta oferta) {
+		
+//		oferta.toString();
+		ModelAndView mav = new ModelAndView("listaProductos");
+
+		mav.addObject("listaProductos", ofertaService.findAll());
+		mav.addObject("oferta", new Oferta());
+			
+		
+		return mav;
+	}
+	
+	// PARA CREAR/MODIFICAR UN PRODUCTO
+	
+	
+	@GetMapping("/subeProducto")
+	public ModelAndView subirProducto(@ModelAttribute( name ="oferta") Oferta oferta) {
+		
+		ModelAndView mav = new ModelAndView("subeProducto");
+		mav.addObject("oferta", new Oferta());
+		
+		
+		return mav;
+	}
+
+	
+	@PostMapping("/crearProducto")
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
+			if(!imagen.isEmpty()) {
+				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
+				try {
+					byte[] bytesImages = imagen.getBytes();					
+					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+					LOG.info("ruta completa:" + rutaCompleta);
+					Files.write(rutaCompleta, bytesImages);
+					oferta.setImagenes(imagen.getOriginalFilename());
+
+					System.out.println(">> Antes del error");
+					ofertaService.save(oferta);
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
 			}
+		
+		return "redirect:/listaProductos";
+
+	}
+	
+	
+	@GetMapping("/modificaProducto/{id}")
+	public String formModificaProducto(@PathVariable (name = "id") Long id, Model model) {
+		
+		Oferta updateOferta = ofertaService.findById(id);
+		model.addAttribute("listaProductos", ofertaService.findAll());
+		model.addAttribute("updateOferta", updateOferta);
+		return "modificarProducto";
+	
+		
+	}
+	
+	@PostMapping("/modificaProducto")
+	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
+		if(! imagen.isEmpty()) {
+			
+			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
+		
+			
+			try {
+				byte[] bytesImages = imagen.getBytes();
+									
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+				
+				LOG.info("ruta completa la imgen" + rutaCompleta);
+				
+				Files.write(rutaCompleta, bytesImages);
+				
+				oferta.setImagenes(imagen.getOriginalFilename());
+				ofertaService.save(oferta);
+				
+	
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+
+	
+	return "redirect:/listaProductos";
+
+		
 	}
 
 }
 
-/*
- * // SUBIDA DE IMAGEN
- * 
- * @PostMapping("/formularioRegistro")
- * public String formularioRegistro() {
- * if (!avatar.isEmpty()) {
- * // Ruta absoluta
- * try {
- * byte[] bytesImages = avatar.getBytes();
- * // Ruta completa, que incluye el nombre original de la imagen
- * Path rutaCompleta = Paths.get(rutaAbsoluta + "//" +
- * avatar.getOriginalFilename());
- * LOG.info("ruta completa la imagen" + rutaCompleta);
- * Files.write(rutaCompleta, bytesImages);
- * usuario.setAvatar(avatar.getOriginalFilename());
- * usuarioService.guardaUsuario(usuario);
- * } catch (IOException e) {
- * e.printStackTrace();
- * }
- * }
- * return "redirect:/lemonApp";
- * }
- */
