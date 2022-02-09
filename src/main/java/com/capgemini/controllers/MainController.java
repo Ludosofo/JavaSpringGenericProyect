@@ -219,7 +219,9 @@ public class MainController implements Serializable {
 	}
 	
 	@PostMapping("/modificaProducto")
-	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
+	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta , @RequestParam(name = "file") MultipartFile imagen) {
+		
+		
 		if(! imagen.isEmpty()) {
 			
 			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
@@ -236,7 +238,7 @@ public class MainController implements Serializable {
 				
 				oferta.setImagenes(imagen.getOriginalFilename());
 				ofertaService.save(oferta);
-				
+//				
 	
 			} catch (IOException e) {
 				
@@ -245,7 +247,7 @@ public class MainController implements Serializable {
 		}
 		
 
-	
+//	
 	return "redirect:/listaProductos";
 
 		
