@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 /* METODOS AUXILIARES PARA EL MAINCONTROLLER */
 public class AuxiliarFunctions {
-    
 
 	// Establecemos sesion
     public HttpSession setSession( HttpServletRequest request, String alias, String public_key){

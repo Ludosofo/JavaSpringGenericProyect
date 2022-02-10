@@ -44,7 +44,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class MainController implements Serializable {
 
-
 	// SET VARIABLES
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(MainController.class);
@@ -52,7 +51,6 @@ public class MainController implements Serializable {
 	@Autowired private IUsuarioServ usuarioService;
 	@Autowired private IOfertaServ ofertaService;
 	private AuxiliarFunctions auxFunctions;
-
 
 	// FUNCIONES DE NAVEGACIÓN
 	@GetMapping()
@@ -105,7 +103,9 @@ public class MainController implements Serializable {
 			String jscript = "sessionStorage.setItem('user','"+cuenta.getAlias()+"');"+"sessionStorage.setItem('pass','"+cuenta.getPass()+"');";
 			mav.addObject("jscript", jscript);
 			mav.addObject("user", cuenta.toString());
-			mav.setViewName("welcome");
+			// mav.setViewName("index");
+			System.out.println("Llamos a listaProductos");
+			return this.listaProductos(); // Retornamos el model and view de otro metodo
 		} else {
 			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "/landingPage");
@@ -129,9 +129,13 @@ public class MainController implements Serializable {
 	}
 
 	// MUESTRA PRODUCTOS
+	// Antes esto tenia @ModelAttribute(name = "oferta") Oferta oferta
+	// ¿POR QUÉ LISTA PRODUCTOS RECIBE OFERTA?
 	@GetMapping("/listaProductos")
-	public ModelAndView listaProductos(@ModelAttribute(name = "oferta") Oferta oferta) {
-		ModelAndView mav = new ModelAndView("listaProductos");
+	public ModelAndView listaProductos() {
+
+		ModelAndView mav = new ModelAndView("template");
+		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
 		return mav;

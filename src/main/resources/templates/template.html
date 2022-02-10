@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
+    <title>Template</title>
+    <style>
+        *{ padding: 0px; margin: 0px; }
+        .lemon{ background-color: #fff943; }
+        .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 1px 1px; font-size: 3rem; margin-left: 2rem; }
+        form{ padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
+        section.spacer{ flex: 1 1 auto; }
+        section.content{ height: 100%; }
+        footer{ background-color: #000000; }
+    </style>
+</head>
+<body>
+    <nav class="lemon">
+        <a href="/#"></a><span class="text-logo">LemonApp</span></a>
+        <section class="spacer"></section>
+        <span th:text="${user}"></span>
+    </nav>
+    <section class="content" th:include="${content}">
+    </section>
+    <footer>
+        <ul>
+            <li>Copyright 2021-2022</li>
+            <li>Lemon App</li>
+            <li>Cyborg</li>
+            <li>Todos los derechos reservados</li>
+        </ul>
+    </footer>
+</body>
+</html>
