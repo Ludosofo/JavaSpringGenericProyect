@@ -53,13 +53,16 @@ public class MainController implements Serializable {
 	 * requiere documentarse sobre seguridad y creación de cookies
 	 */
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 	private static final String defaultUserURL = "";
 	private Path imagesURL = Paths.get("src//main//resources//static/images");
 
 	@Autowired
 	private IUsuarioServ usuarioService;
-	@Autowired
 	private IOfertaServ ofertaService;
 
 	// Cambio para testear
