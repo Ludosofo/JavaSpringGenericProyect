@@ -64,8 +64,7 @@ public class Usuario implements Serializable{
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private UsuarioImagen usuarioImage;
+	
 	
 	//@OneToMany(mappedBy = "valoracion")
 	//private List<Valoracion> nuestrasValoraciones; // Valoraciones de nuestro usuario

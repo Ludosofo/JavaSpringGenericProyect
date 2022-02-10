@@ -60,16 +60,22 @@ public class UsuarioServImpl implements IUsuarioServ{
 		daoUsuario.save(usuario);	
 	}
 	
-	@Override
-	// Pone ASC pero es DESCENTE JAJSAJSJAJSJASJAJSJASAjaj! SOY SUBNORMAL!!!
-	public List<Usuario> findAllByOrderByIdAsc() {
-		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
-	}
+//	@Override
+//	// Pone ASC pero es DESCENTE JAJSAJSJAJSJASJAJSJASAjaj! SOY SUBNORMAL!!!
+//	public List<Usuario> findAllByOrderByIdAsc() {
+//		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
+//	}
 
 	@Override
 	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
 		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
 		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
+	}
+
+	@Override
+	public List<Usuario> findAllByOrderByIdAsc() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
