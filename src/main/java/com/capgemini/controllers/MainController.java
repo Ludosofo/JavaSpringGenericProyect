@@ -104,14 +104,10 @@ public class MainController implements Serializable {
 		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
 		ModelAndView mav = new ModelAndView();
 
-		HttpSession session = request.getSession();
-		
-		
-		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-		messages.add("Mensaje 1");
-		messages.add("Mensaje 2");
-		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+		// HttpSession session = request.getSession();
+		// request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 
+		getSessionWithAliasAndPublicKey( request.getSession(), cuenta.getAlias(), cuenta.getPass());
 		if (cuenta != null) {
 			// response.addCookie(new Cookie("user", usuario.getAlias()));
 			// response.addCookie(new Cookie("publicKey", "ASSSDSSDFSDFSFSDFSDFSDFSDFSSGGFDGDFSGDF"));
@@ -119,10 +115,6 @@ public class MainController implements Serializable {
 			mav.addObject("user", cuenta.toString() );
 			mav.setViewName("welcome");
 		} else {
-
-			// Reset cookies
-			response.addCookie(new Cookie("user", null));
-			response.addCookie(new Cookie("publicKey", null));
 
 			// Enviamos a la redirección
 			mav.addObject("redirect", "http://localhost:8080");
@@ -133,6 +125,12 @@ public class MainController implements Serializable {
 
 		// mav.addObject( "datos-session", request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);)
 		return mav;
+	}
+
+	public HttpSession getSessionWithAliasAndPublicKey(HttpServletRequest request, String alias, String public_key){
+		request.getSession().setAttribute("MY_USER", alias);
+		request.getSession().setAttribute("PUBLIC_KEY", public_key);
+		return request.getSession();
 	}
 
 	@GetMapping("/getImgByUser/{id}")
