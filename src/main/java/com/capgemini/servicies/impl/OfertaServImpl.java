@@ -5,6 +5,8 @@ import java.util.List;
 import com.capgemini.entities.Oferta;
 import com.capgemini.servicies.IOfertaServ;
 
+import org.springframework.stereotype.Service;
+@Service
 public class OfertaServImpl implements IOfertaServ{
 
 	@Override

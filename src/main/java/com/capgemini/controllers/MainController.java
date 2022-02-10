@@ -2,9 +2,12 @@ package com.capgemini.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +66,8 @@ public class MainController implements Serializable {
 
 	@Autowired
 	private IUsuarioServ usuarioService;
+
+	@Autowired
 	private IOfertaServ ofertaService;
 
 	// Cambio para testear
@@ -73,19 +78,23 @@ public class MainController implements Serializable {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
 		Usuario usuarioDefault = new Usuario();
+
 		mav.addObject("usuario", usuarioDefault);
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
 
-		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
-		mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
+		if(request.getSession().getAttribute("user")!=null){
+			System.out.println(">> Tenemos datos de usuario");
+			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+			mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
+		}
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
 
 	// Procesamiento del registro y lanzamiento a pagina de redirección
 	@PostMapping("/register")
-	public ModelAndView saveUsuario(HttpServletResponse response, @ModelAttribute(name = "usuario") Usuario usuario,
-			Model model) {
+	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, HttpServletResponse response, Model model) {
+		System.out.println(usuario);
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
@@ -93,6 +102,7 @@ public class MainController implements Serializable {
 			mav.addObject("mensaje", "Usuario registrado correctamente");
 			mav.addObject("miliseconds", "2000");
 		} catch (Exception e) {
+			System.out.println(usuario.toString());
 			mav.addObject("mensaje", e.getMessage());
 			mav.addObject("miliseconds", "9000");
 		}
@@ -101,26 +111,37 @@ public class MainController implements Serializable {
 
 	@PostMapping("/checkUsuario")
 	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
-		
-		// 0. Set data
 		ModelAndView mav = new ModelAndView();
 
 		// 1. ¿Existe el usuario?
 		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
-		
+
 		if (cuenta != null) {
 
 			// Tenemos usuario, creamos y pasamos session
-			HttpSession session = getSessionWithAliasAndPublicKey( request, cuenta.getAlias(), cuenta.getPass());
-			session.setAttribute("JSESSIONID", "TRUE");
-			mav.addObject("user", cuenta.toString());
+			// HttpSession session = getSessionWithAliasAndPublicKey(request, cuenta.getAlias(), cuenta.getPass());
+			
+			// Solo con esto la session debería estar establecida
 			mav.setViewName("welcome");
+
+			// HttpSession session = request.getSession(true);
+			// session.setAttribute("user", cuenta.getAlias());
+
+			// Como JAVA se ejecuta desde el lado del backend no puede establecer sessión en el controller por lo que usaremos sessionStorage
+			String jscript = "sessionStorage.setItem('user','"+cuenta.getAlias()+"');"+"sessionStorage.setItem('pass','"+cuenta.getPass()+"');";
+			mav.addObject("jscript", jscript);
+			mav.addObject("user", cuenta.toString());
+			
 		} else {
 
 			// No tenemos usuario, mostramos mensaje y redirigimos
-			mav.addObject("redirect", "http://localhost:8080");
+			mav.addObject("redirect", "/landingPage");
 			mav.addObject("mensaje", "Las claves enviadas no son validas");
 			mav.addObject("miliseconds", "2000");
+			
+
+			String jscript = "window.location.href = "http://www.w3schools.com";";
+			mav.addObject("jscript", jscript);
 			mav.setViewName("basic-msg");
 		}
 		return mav;
@@ -172,7 +193,7 @@ public class MainController implements Serializable {
 				Files.write(rutaCompleta, bytesImages);
 				oferta.setImagenes(imagen.getOriginalFilename());
 
-				System.out.println(">> Antes del error"); // TODO: Tenemos un error aquí
+				System.out.println(" >> Antes del error"); // TODO: Tenemos un error aquí
 				ofertaService.save(oferta);
 			} catch (IOException e) {
 
@@ -212,10 +233,33 @@ public class MainController implements Serializable {
 		return "redirect:/listaProductos";
 	}
 
-	public HttpSession getSessionWithAliasAndPublicKey( HttpServletRequest request, String alias, String public_key) {
+	public HttpSession getSessionWithAliasAndPublicKey(HttpServletRequest request, String alias, String public_key) {
+		request.getSession(true);
 		request.getSession().setAttribute("MY_USER", alias);
 		request.getSession().setAttribute("PUBLIC_KEY", public_key);
 		return request.getSession();
+	}
+
+	public static String getMd5(String input) {
+		try {
+			// Static getInstance method is called with hashing MD5
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			// digest() method is called to calculate message digest
+			// of an input digest() return array of byte
+			byte[] messageDigest = md.digest(input.getBytes());
+			// Convert byte array into signum representation
+			BigInteger no = new BigInteger(1, messageDigest);
+			// Convert message digest into hex value
+			String hashtext = no.toString(16);
+			while (hashtext.length() < 32) {
+				hashtext = "0" + hashtext;
+			}
+			return hashtext;
+		}
+		// For specifying wrong message digest algorithms
+		catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

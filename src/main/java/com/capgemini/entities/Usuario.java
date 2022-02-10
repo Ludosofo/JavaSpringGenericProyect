@@ -40,7 +40,7 @@ public class Usuario implements Serializable{
 	private Long id;
 	
 	@NotNull
-	@NotEmpty(message = "ERROR su alias no puede estar vacio")
+	@NotEmpty(message = "ERROR: Su alias no puede estar vacio")
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	@Column( unique = true)
 	private String alias;
@@ -71,37 +71,4 @@ public class Usuario implements Serializable{
 	// private String telefono;
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
-
-
-	void setPass(String value){
-		this.pass = getMd5(value);
-	}
-
-	public static String getMd5(String input)
-    {
-        try {
-  
-            // Static getInstance method is called with hashing MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
-  
-            // digest() method is called to calculate message digest
-            //  of an input digest() return array of byte
-            byte[] messageDigest = md.digest(input.getBytes());
-  
-            // Convert byte array into signum representation
-            BigInteger no = new BigInteger(1, messageDigest);
-  
-            // Convert message digest into hex value
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
-        } 
-  
-        // For specifying wrong message digest algorithms
-        catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
