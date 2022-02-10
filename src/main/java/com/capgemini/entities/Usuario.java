@@ -63,12 +63,4 @@ public class Usuario implements Serializable{
 	// private String telefono;
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
-	
-	
-	
-	//@OneToMany(mappedBy = "valoracion")
-	//private List<Valoracion> nuestrasValoraciones; // Valoraciones de nuestro usuario
-	
-	//@OneToMany(mappedBy = "valoracion")
-	//private List<Valoracion> valoracionesHaciaNosotros; // Valoraciones de nuestro usuario
 }
