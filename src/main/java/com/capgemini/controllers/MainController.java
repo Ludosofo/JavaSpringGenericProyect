@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import com.capgemini.entities.Oferta;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
@@ -37,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 @Controller
 @RequestMapping("/")
 public class MainController implements Serializable {
@@ -75,6 +75,7 @@ public class MainController implements Serializable {
 		Usuario usuarioDefault = new Usuario();
 		mav.addObject("usuario", usuarioDefault);
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
+
 		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 		mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
@@ -99,40 +100,33 @@ public class MainController implements Serializable {
 	}
 
 	@PostMapping("/checkUsuario")
-	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request,
-			@ModelAttribute(name = "usuario") Usuario usuario) {
-		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
+	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
+		
+		// 0. Set data
 		ModelAndView mav = new ModelAndView();
 
-		// HttpSession session = request.getSession();
-		// request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
-
-		getSessionWithAliasAndPublicKey( request.getSession(), cuenta.getAlias(), cuenta.getPass());
+		// 1. ¿Existe el usuario?
+		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
+		
 		if (cuenta != null) {
-			// response.addCookie(new Cookie("user", usuario.getAlias()));
-			// response.addCookie(new Cookie("publicKey", "ASSSDSSDFSDFSFSDFSDFSDFSDFSSGGFDGDFSGDF"));
-			session.setAttribute("JSESSIONID", "Session creada");
-			mav.addObject("user", cuenta.toString() );
+
+			// Tenemos usuario, creamos y pasamos session
+			HttpSession session = getSessionWithAliasAndPublicKey( request, cuenta.getAlias(), cuenta.getPass());
+			session.setAttribute("JSESSIONID", "TRUE");
+			mav.addObject("user", cuenta.toString());
 			mav.setViewName("welcome");
 		} else {
 
-			// Enviamos a la redirección
+			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "http://localhost:8080");
-			mav.addObject("mensaje", "Usuario erroneo");
+			mav.addObject("mensaje", "Las claves enviadas no son validas");
 			mav.addObject("miliseconds", "2000");
 			mav.setViewName("basic-msg");
 		}
-
-		// mav.addObject( "datos-session", request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);)
 		return mav;
 	}
 
-	public HttpSession getSessionWithAliasAndPublicKey(HttpServletRequest request, String alias, String public_key){
-		request.getSession().setAttribute("MY_USER", alias);
-		request.getSession().setAttribute("PUBLIC_KEY", public_key);
-		return request.getSession();
-	}
-
+	// TO_REVIEW
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
 		String userImgURL = defaultUserURL;
@@ -143,110 +137,85 @@ public class MainController implements Serializable {
 		return userImgURL;
 	}
 
+	// TODO
 	@GetMapping("saveAvatar")
 	public void saveImg(@RequestParam(name = "file") MultipartFile avatar) {
 	}
-	
 
-	// PARA MOSTRAR LA LISTA DE PRODUCTOS
-	
-	
+	// MUESTRA PRODUCTOS
 	@GetMapping("/listaProductos")
 	public ModelAndView listaProductos(@ModelAttribute(name = "oferta") Oferta oferta) {
-		
-//		oferta.toString();
 		ModelAndView mav = new ModelAndView("listaProductos");
-
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
-			
-		
 		return mav;
 	}
-	
-	// PARA CREAR/MODIFICAR UN PRODUCTO
-	
-	
+
+	// SUBE PRODUCTOS
 	@GetMapping("/subeProducto")
-	public ModelAndView subirProducto(@ModelAttribute( name ="oferta") Oferta oferta) {
-		
+	public ModelAndView subirProducto(@ModelAttribute(name = "oferta") Oferta oferta) {
 		ModelAndView mav = new ModelAndView("subeProducto");
 		mav.addObject("oferta", new Oferta());
-		
-		
 		return mav;
 	}
 
-	
+	// CREA PRODUCTOS
 	@PostMapping("/crearProducto")
-	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta, @RequestParam(name = "file") MultipartFile imagen) {
-			if(!imagen.isEmpty()) {
-				String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
-				try {
-					byte[] bytesImages = imagen.getBytes();					
-					Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-					LOG.info("ruta completa:" + rutaCompleta);
-					Files.write(rutaCompleta, bytesImages);
-					oferta.setImagenes(imagen.getOriginalFilename());
+	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta,
+			@RequestParam(name = "file") MultipartFile imagen) {
+		if (!imagen.isEmpty()) {
+			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
+			try {
+				byte[] bytesImages = imagen.getBytes();
+				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+				LOG.info("ruta completa:" + rutaCompleta);
+				Files.write(rutaCompleta, bytesImages);
+				oferta.setImagenes(imagen.getOriginalFilename());
 
-					System.out.println(">> Antes del error");
-					ofertaService.save(oferta);
-				} catch (IOException e) {
+				System.out.println(">> Antes del error"); // TODO: Tenemos un error aquí
+				ofertaService.save(oferta);
+			} catch (IOException e) {
 
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-		
+		}
+
 		return "redirect:/listaProductos";
 
 	}
-	
-	
+
 	@GetMapping("/modificaProducto/{id}")
-	public String formModificaProducto(@PathVariable (name = "id") Long id, Model model) {
-		
+	public String formModificaProducto(@PathVariable(name = "id") Long id, Model model) {
+
 		Oferta updateOferta = ofertaService.findById(id);
 		model.addAttribute("listaProductos", ofertaService.findAll());
 		model.addAttribute("updateOferta", updateOferta);
 		return "modificarProducto";
-	
-		
 	}
-	
+
 	@PostMapping("/modificaProducto")
-	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta , @RequestParam(name = "file") MultipartFile imagen) {
-		
-		
-		if(! imagen.isEmpty()) {
-			
-			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack"; 
-		
-			
+	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta,
+			@RequestParam(name = "file") MultipartFile imagen) {
+		if (!imagen.isEmpty()) {
+			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
 			try {
 				byte[] bytesImages = imagen.getBytes();
-									
 				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-				
 				LOG.info("ruta completa la imgen" + rutaCompleta);
-				
 				Files.write(rutaCompleta, bytesImages);
-				
 				oferta.setImagenes(imagen.getOriginalFilename());
 				ofertaService.save(oferta);
-//				
-	
 			} catch (IOException e) {
-				
 				e.printStackTrace();
 			}
 		}
-		
+		return "redirect:/listaProductos";
+	}
 
-//	
-	return "redirect:/listaProductos";
-
-		
+	public HttpSession getSessionWithAliasAndPublicKey( HttpServletRequest request, String alias, String public_key) {
+		request.getSession().setAttribute("MY_USER", alias);
+		request.getSession().setAttribute("PUBLIC_KEY", public_key);
+		return request.getSession();
 	}
 
 }
-

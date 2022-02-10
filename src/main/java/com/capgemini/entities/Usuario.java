@@ -1,6 +1,9 @@
 package com.capgemini.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +19,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+
+import org.springframework.util.DigestUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -66,4 +71,37 @@ public class Usuario implements Serializable{
 	// private String telefono;
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
+
+
+	void setPass(String value){
+		this.pass = getMd5(value);
+	}
+
+	public static String getMd5(String input)
+    {
+        try {
+  
+            // Static getInstance method is called with hashing MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+  
+            // digest() method is called to calculate message digest
+            //  of an input digest() return array of byte
+            byte[] messageDigest = md.digest(input.getBytes());
+  
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, messageDigest);
+  
+            // Convert message digest into hex value
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } 
+  
+        // For specifying wrong message digest algorithms
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
