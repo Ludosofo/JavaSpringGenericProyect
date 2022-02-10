@@ -44,46 +44,24 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class MainController implements Serializable {
 
-	/*
-	 * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
-	 * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
-	 * Podría ir aparte y ser llamado por saveUsuario ) - saveOferta (
-	 * creación/edición ) - saveContrato ( creación/edición ) - deleteOferta ( ) -
-	 * deleteUsuario ( darse de baja ? ) - getContrato - deleteContrato ( borrar
-	 * oferta SOLO si no está cerrado ) - saveValoracion ( creación/valoracion )
-	 * 
-	 * WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente // Esto
-	 * requiere documentarse sobre seguridad y creación de cookies
-	 */
 
-	/**
-	 * 
-	 */
+	// SET VARIABLES
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 	private static final String defaultUserURL = "";
-	private Path imagesURL = Paths.get("src//main//resources//static/images");
-
-	@Autowired
-	private IUsuarioServ usuarioService;
-
-	@Autowired
-	private IOfertaServ ofertaService;
-
-	// Cambio para testear
-	// Estás conectado ? Pues debería redireccionarnos a otra pagina
+	@Autowired private IUsuarioServ usuarioService;
+	@Autowired private IOfertaServ ofertaService;
 
 	@GetMapping()
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
-		System.out.println("getIndex()");
+		
 		ModelAndView mav = new ModelAndView("index");
 		Usuario usuarioDefault = new Usuario();
 
 		mav.addObject("usuario", usuarioDefault);
-		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
 
 		if(request.getSession().getAttribute("user")!=null){
-			System.out.println(">> Tenemos datos de usuario");
+			// Tenemos usuario
 			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 			mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
 		}
@@ -131,17 +109,12 @@ public class MainController implements Serializable {
 			String jscript = "sessionStorage.setItem('user','"+cuenta.getAlias()+"');"+"sessionStorage.setItem('pass','"+cuenta.getPass()+"');";
 			mav.addObject("jscript", jscript);
 			mav.addObject("user", cuenta.toString());
-			
 		} else {
-
 			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "/landingPage");
 			mav.addObject("mensaje", "Las claves enviadas no son validas");
-			mav.addObject("miliseconds", "2000");
-			
-
-			String jscript = "window.location.href = "http://www.w3schools.com";";
-			mav.addObject("jscript", jscript);
+			mav.addObject("miliseconds", "3000");
+			mav.addObject("jscript", "");
 			mav.setViewName("basic-msg");
 		}
 		return mav;
@@ -263,3 +236,15 @@ public class MainController implements Serializable {
 	}
 
 }
+
+	/*
+	 * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
+	 * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
+	 * Podría ir aparte y ser llamado por saveUsuario ) - saveOferta (
+	 * creación/edición ) - saveContrato ( creación/edición ) - deleteOferta ( ) -
+	 * deleteUsuario ( darse de baja ? ) - getContrato - deleteContrato ( borrar
+	 * oferta SOLO si no está cerrado ) - saveValoracion ( creación/valoracion )
+	 * 
+	 * WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente
+	 * Esto requiere documentarse sobre seguridad y creación de cookies
+	 */
