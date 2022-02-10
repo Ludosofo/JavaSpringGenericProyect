@@ -5,10 +5,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,12 +16,9 @@ import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
 
-import org.apache.catalina.util.URLEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +27,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+
 @Controller
 @RequestMapping("/")
 public class MainController implements Serializable {
@@ -63,6 +57,7 @@ public class MainController implements Serializable {
 
 	@Autowired
 	private IUsuarioServ usuarioService;
+	@Autowired
 	private IOfertaServ ofertaService;
 
 	// Cambio para testear
@@ -117,10 +112,10 @@ public class MainController implements Serializable {
 		HttpSession session = request.getSession();
 		
 		
-		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-		messages.add("Mensaje 1");
-		messages.add("Mensaje 2");
-		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+//		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+//		messages.add("Mensaje 1");
+//		messages.add("Mensaje 2");
+//		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 
 		if (cuenta != null) {
 			// response.addCookie(new Cookie("user", usuario.getAlias()));
