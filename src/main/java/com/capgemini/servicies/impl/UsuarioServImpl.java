@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.controllers.AuxiliarFunctions;
 import com.capgemini.dao.IUsuarioDao;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IUsuarioServ;
@@ -68,6 +69,7 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
+		pass = AuxiliarFunctions.getMd5( pass );
 		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
 		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
 	}

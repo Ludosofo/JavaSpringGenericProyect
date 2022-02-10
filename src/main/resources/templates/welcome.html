@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bienvenido</title>
 </head>
 <body>
     <h2>Información de usuario</h2>
     <div th:text="${user}"></div>
+    <div><a href="/test">Ir a la pagina de test</a></div>
     <div th:inner="${jscript}"></div>
     <script th:inline="javascript">/*<![CDATA[*/ var code = /*[[${jscript}]]*/ "default"; eval(code); /*]]>*/</script>
 </body>

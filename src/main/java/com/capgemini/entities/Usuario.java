@@ -44,18 +44,6 @@ public class Usuario implements Serializable{
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	@Column( unique = true)
 	private String alias;
-	
-	// @NotNull
-	// @NotEmpty(message = "ERROR su nombre no puede estar vacio")
-	// @Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
-	@Null
-	private String nombre;
-	
-	//@NotNull
-	//@NotEmpty(message = "ERROR su apellidos no puede estar vacio")
-	//@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
-	@Null
-	private String apellidos;
 
 	@NotNull
 	@NotEmpty(message = "ERROR: su password no puede estar vacio")

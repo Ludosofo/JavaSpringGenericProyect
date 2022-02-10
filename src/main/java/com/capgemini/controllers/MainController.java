@@ -51,17 +51,17 @@ public class MainController implements Serializable {
 	private static final String defaultUserURL = "";
 	@Autowired private IUsuarioServ usuarioService;
 	@Autowired private IOfertaServ ofertaService;
+	private AuxiliarFunctions auxFunctions;
 
+
+	// FUNCIONES DE NAVEGACIÓN
 	@GetMapping()
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
-		
-		ModelAndView mav = new ModelAndView("index");
+		ModelAndView mav = new ModelAndView("landingPage");
 		Usuario usuarioDefault = new Usuario();
-
 		mav.addObject("usuario", usuarioDefault);
 
 		if(request.getSession().getAttribute("user")!=null){
-			// Tenemos usuario
 			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 			mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
 		}
@@ -76,6 +76,8 @@ public class MainController implements Serializable {
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
+
+			usuario.setPass( auxFunctions.getMd5(usuario.getPass()));
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
 			mav.addObject("miliseconds", "2000");
@@ -90,25 +92,20 @@ public class MainController implements Serializable {
 	@PostMapping("/checkUsuario")
 	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
 		ModelAndView mav = new ModelAndView();
-
-		// 1. ¿Existe el usuario?
 		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
-
 		if (cuenta != null) {
-
-			// Tenemos usuario, creamos y pasamos session
-			// HttpSession session = getSessionWithAliasAndPublicKey(request, cuenta.getAlias(), cuenta.getPass());
-			
-			// Solo con esto la session debería estar establecida
-			mav.setViewName("welcome");
-
-			// HttpSession session = request.getSession(true);
-			// session.setAttribute("user", cuenta.getAlias());
-
-			// Como JAVA se ejecuta desde el lado del backend no puede establecer sessión en el controller por lo que usaremos sessionStorage
+			String user = cuenta.getAlias();
+			String key = cuenta.getPass();
+			// HttpSession session = auxFunctions.setSession(request, user, key);
+			HttpSession session = request.getSession(true);
+			session.setAttribute("MY_USER", user);
+			session.setAttribute("PUBLIC_KEY", key);
+			session.setAttribute("MSG", "Este msg fue creado en /checkUsuario");
+			// Pasamos JS que se guarda en cliente
 			String jscript = "sessionStorage.setItem('user','"+cuenta.getAlias()+"');"+"sessionStorage.setItem('pass','"+cuenta.getPass()+"');";
 			mav.addObject("jscript", jscript);
 			mav.addObject("user", cuenta.toString());
+			mav.setViewName("welcome");
 		} else {
 			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "/landingPage");
@@ -131,11 +128,6 @@ public class MainController implements Serializable {
 		return userImgURL;
 	}
 
-	// TODO
-	@GetMapping("saveAvatar")
-	public void saveImg(@RequestParam(name = "file") MultipartFile avatar) {
-	}
-
 	// MUESTRA PRODUCTOS
 	@GetMapping("/listaProductos")
 	public ModelAndView listaProductos(@ModelAttribute(name = "oferta") Oferta oferta) {
@@ -151,6 +143,15 @@ public class MainController implements Serializable {
 		ModelAndView mav = new ModelAndView("subeProducto");
 		mav.addObject("oferta", new Oferta());
 		return mav;
+	}
+
+	@GetMapping("/modificaProducto/{id}")
+	public String formModificaProducto(@PathVariable(name = "id") Long id, Model model) {
+
+		Oferta updateOferta = ofertaService.findById(id);
+		model.addAttribute("listaProductos", ofertaService.findAll());
+		model.addAttribute("updateOferta", updateOferta);
+		return "modificarProducto";
 	}
 
 	// CREA PRODUCTOS
@@ -178,15 +179,6 @@ public class MainController implements Serializable {
 
 	}
 
-	@GetMapping("/modificaProducto/{id}")
-	public String formModificaProducto(@PathVariable(name = "id") Long id, Model model) {
-
-		Oferta updateOferta = ofertaService.findById(id);
-		model.addAttribute("listaProductos", ofertaService.findAll());
-		model.addAttribute("updateOferta", updateOferta);
-		return "modificarProducto";
-	}
-
 	@PostMapping("/modificaProducto")
 	public String modificaProducto(@ModelAttribute(name = "oferta") Oferta oferta,
 			@RequestParam(name = "file") MultipartFile imagen) {
@@ -206,33 +198,13 @@ public class MainController implements Serializable {
 		return "redirect:/listaProductos";
 	}
 
-	public HttpSession getSessionWithAliasAndPublicKey(HttpServletRequest request, String alias, String public_key) {
-		request.getSession(true);
-		request.getSession().setAttribute("MY_USER", alias);
-		request.getSession().setAttribute("PUBLIC_KEY", public_key);
-		return request.getSession();
-	}
-
-	public static String getMd5(String input) {
-		try {
-			// Static getInstance method is called with hashing MD5
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			// digest() method is called to calculate message digest
-			// of an input digest() return array of byte
-			byte[] messageDigest = md.digest(input.getBytes());
-			// Convert byte array into signum representation
-			BigInteger no = new BigInteger(1, messageDigest);
-			// Convert message digest into hex value
-			String hashtext = no.toString(16);
-			while (hashtext.length() < 32) {
-				hashtext = "0" + hashtext;
-			}
-			return hashtext;
-		}
-		// For specifying wrong message digest algorithms
-		catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
+	@GetMapping("/test")
+	public ModelAndView test(HttpServletResponse response, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("test");
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+		mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
+		mav.addObject("MSG", request.getSession().getAttribute("MSG"));
+		return mav;
 	}
 
 }
