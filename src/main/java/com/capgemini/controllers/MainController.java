@@ -72,21 +72,11 @@ public class MainController implements Serializable {
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
 		System.out.println("getIndex()");
 		ModelAndView mav = new ModelAndView("index");
-
-		// Usuario precargado
 		Usuario usuarioDefault = new Usuario();
-		// usuarioDefault.setAlias("Nick");
-		// usuarioDefault.setNombre("Nombre");
-		// usuarioDefault.setPass("password");
-		// usuarioDefault.setMail("correo@gmail.com");
-		// usuarioDefault.setApellidos("Apellidos");
-
-		mav.addObject("usuario", usuarioDefault); // <---- Necesario para que Thymeleaf sepa los datos que recoge
+		mav.addObject("usuario", usuarioDefault);
 		mav.addObject("listaUsuarios", usuarioService.findAllByOrderByIdAsc());
-
-		
-		var attributeValue = request.getSession().getAttribute("MY_SESSION_MESSAGES");
-		mav.addObject("parametro_session", attributeValue);
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+		mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
 		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
 		return mav;
 	}
