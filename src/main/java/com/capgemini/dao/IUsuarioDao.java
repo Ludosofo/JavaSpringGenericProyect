@@ -10,7 +10,7 @@ public interface IUsuarioDao extends JpaRepository<Usuario, Long>{
 
     // Hacer una comprobación
     @Query("SELECT u FROM Usuario u WHERE u.alias = ?1 and u.pass = ?2")
-	public Usuario findUsuarioByAliasAndPass(String alias, String pass)
+	public Usuario findUsuarioByAliasAndPass(String alias, String pass);
 
     @Query("SELECT u FROM Usuario u WHERE u.pass = ?1")
 	public Usuario getUsuarioByKey(String public_key);
