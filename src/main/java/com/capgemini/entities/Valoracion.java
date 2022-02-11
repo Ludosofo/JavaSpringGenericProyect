@@ -35,6 +35,4 @@ public class Valoracion implements Serializable{
 	public Usuario usuario; 
 
 }
-
-
 /** @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) **/

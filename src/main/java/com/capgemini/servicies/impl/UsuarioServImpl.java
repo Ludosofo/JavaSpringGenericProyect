@@ -68,13 +68,17 @@ public class UsuarioServImpl implements IUsuarioServ{
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
 		// TODO Auto-generated method stub
-		return null;
+		return daoUsuario.findAll();
 	}
 
 	@Override
-	public Usuario getUserByKey(String key) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Usuario> findAllByOrderByIdDesc() {
+		return daoUsuario.findAll();
+	}
+
+	@Override
+	public Usuario getUserByKey(String public_key) {
+		return daoUsuario.getUsuarioByKey(public_key);
 	}
 
 }

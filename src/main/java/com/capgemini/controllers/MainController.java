@@ -48,23 +48,20 @@ public class MainController implements Serializable {
 
 	public boolean confirmSession(HttpServletRequest request){
 		String key = (String) request.getSession().getAttribute("PUBLIC_KEY");
-		System.out.println("Nuestra key es "+key);
+		if(usuarioService.getUserByKey(key)!=null){ return true; }
 		return false;
 	}
 
+	// NO REGISTRADOS van a la landingPage
+	public ModelAndView landingPage(){
+		return new ModelAndView("landingPage").addObject("usuario", new Usuario());
+	}
+	
 	@GetMapping()
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
-		confirmSession(request);
-		ModelAndView mav = new ModelAndView("landingPage");
-		Usuario usuarioDefault = new Usuario();
-		mav.addObject("usuario", usuarioDefault);
-
-		if (request.getSession().getAttribute("user") != null) {
-			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
-			mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
-		}
-		// mav.addObject("absPath", imagesURL.toFile().getAbsolutePath());
-		return mav;
+		// Estructura que poner en todas las funciones de seguridad
+		if(!confirmSession(request)){ return this.landingPage(); }
+		return this.listaProductos(request);
 	}
 
 	// Procesamiento del registro y lanzamiento a pagina de redirección

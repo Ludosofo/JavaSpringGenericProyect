@@ -13,6 +13,7 @@ public interface IUsuarioServ {
     public List<Usuario> findAll();
     // public List<Usuario> findAll(String column, Sort sort);
     public List<Usuario> findAllByOrderByIdAsc(); // Experimento
+    public List<Usuario> findAllByOrderByIdDesc(); // Experimento
 	public Usuario findById(long id);
     public void delete(long id);
     public void save(Usuario oferta);
