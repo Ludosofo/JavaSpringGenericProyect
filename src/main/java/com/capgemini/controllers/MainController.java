@@ -138,6 +138,9 @@ public class MainController implements Serializable {
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
+		mav.addObject("usuarios", usuarioService.findAll());
+		
+		
 		return mav;
 	}
 
@@ -145,7 +148,9 @@ public class MainController implements Serializable {
 	@GetMapping("/subeProducto")
 	public ModelAndView subirProducto(@ModelAttribute(name = "oferta") Oferta oferta) {
 		ModelAndView mav = new ModelAndView("subeProducto");
+//		Usuario usuario =usuarioService.findById(id);
 		mav.addObject("oferta", new Oferta());
+//		mav.addObject("usuario", usuario);
 		return mav;
 	}
 
@@ -156,6 +161,23 @@ public class MainController implements Serializable {
 		model.addAttribute("listaProductos", ofertaService.findAll());
 		model.addAttribute("updateOferta", updateOferta);
 		return "modificarProducto";
+	}
+	
+	
+	@GetMapping("/perfilUsuario/{id}")
+	public String perfilUsuario(@PathVariable(name = "id") Long id, Model model) {
+		System.out.println(" >>>>> Mi id es:" + id);
+		
+		
+//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> perfilUsuario");
+		Usuario usuario = usuarioService.findById(id);
+		System.out.println(">>> USUARIO");
+		System.out.println(usuario.toString());
+		
+//		model.addAttribute("listaProductos", ofertaService.findAll());
+		model.addAttribute("usuario", usuario);
+//		model.addAttribute("usuarios", usuarioService.findAll());
+		return "perfilUsuario";
 	}
 
 	// CREA PRODUCTOS
@@ -210,6 +232,26 @@ public class MainController implements Serializable {
 		mav.addObject("MSG", request.getSession().getAttribute("MSG"));
 		return mav;
 	}
+	
+	
+	
+	//PÁGINA DEL USUARIO
+	
+//	@GetMapping("/perfilUsuario")
+//	public ModelAndView perfilUsuario(@PathVariable(name = "id") Long id, Model model) {
+//
+//		ModelAndView mav = new ModelAndView("template");
+//		Usuario usuarioActual=usuarioService.findById(id);
+//		mav.addObject("content", "perfilUsuario");
+//		mav.addObject("listaProductosUsuario", ofertaService.findAll());
+//		mav.addObject("oferta", new Oferta());
+//		mav.addObject("usuarioActual", usuarioActual);
+//		return mav;
+//	}
+//	
+	
+	
+	
 
 }
 
