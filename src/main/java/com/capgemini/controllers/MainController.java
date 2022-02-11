@@ -210,14 +210,14 @@ public class MainController implements Serializable {
 		return "redirect:/listaProductos";
 	}
 
-	@GetMapping("/test")
-	public ModelAndView test(HttpServletResponse response, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("test");
-		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
-		mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
-		mav.addObject("MSG", request.getSession().getAttribute("MSG"));
-		return mav;
-	}
+	// @GetMapping("/test")
+	// public ModelAndView test(HttpServletResponse response, HttpServletRequest request){
+	// 	ModelAndView mav = new ModelAndView("test");
+	// 	mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+	// 	mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
+	// 	mav.addObject("MSG", request.getSession().getAttribute("MSG"));
+	// 	return mav;
+	// }
 
 }
 
