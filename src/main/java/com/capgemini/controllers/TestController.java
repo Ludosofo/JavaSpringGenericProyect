@@ -1,5 +1,6 @@
 package com.capgemini.controllers;
 
+import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 import com.capgemini.servicies.IUsuarioServ;
 
@@ -21,9 +22,13 @@ public class TestController {
 	public ModelAndView usuariosCalls(){
 		System.out.println(">>> /test/getUsuario");
 		ModelAndView mav = new ModelAndView("test");
+
+		Usuario user = usuarioService.findById(1);
+
+		System.out.println(">>> Nuestro usuario es:");
+		System.out.println(user.toString());
 		mav.addObject("title", "Queremos obtener un usuario con findById(1)");
-		System.out.println(usuarioService.findById(1));
-		mav.addObject("data", usuarioService.findById(1));
+		mav.addObject("data", "Todo correcto" );
 		return mav;
 	}
 }
