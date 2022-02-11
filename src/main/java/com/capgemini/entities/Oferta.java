@@ -3,7 +3,7 @@ package com.capgemini.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -54,7 +54,8 @@ public class Oferta implements Serializable {
 	
 	private String precio;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+	@NotNull
 	public Usuario usuario;
 	
 //	@OneToMany(mappedBy="oferta")
