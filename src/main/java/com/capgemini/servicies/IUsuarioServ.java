@@ -20,4 +20,5 @@ public interface IUsuarioServ {
     public void guardaUsuario(Usuario usuario);
 
     public Usuario findUsuarioByAliasAndPass(String alias, String pass);
+    public Usuario getUserByKey(String key);
 }

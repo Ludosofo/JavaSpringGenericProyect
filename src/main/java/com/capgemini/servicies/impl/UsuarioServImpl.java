@@ -1,16 +1,7 @@
 package com.capgemini.servicies.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.IUsuarioDao;
@@ -74,6 +65,12 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario getUserByKey(String key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
