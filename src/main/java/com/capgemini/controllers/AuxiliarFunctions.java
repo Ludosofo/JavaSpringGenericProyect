@@ -11,12 +11,14 @@ import javax.servlet.http.HttpSession;
 public class AuxiliarFunctions {
 
 	// Establecemos sesion
-    public HttpSession setSession( HttpServletRequest request, String alias, String public_key){
+    /*
+	public HttpSession setSession( HttpServletRequest request, String alias, String public_key){
 		request.getSession(true);
 		request.getSession().setAttribute("MY_USER", alias);
 		request.getSession().setAttribute("PUBLIC_KEY", public_key);
 		return request.getSession();
 	}
+	*/
 
 	// Obtenemos un String encriptado para usar como key
 	public static String getMd5(String input) {
