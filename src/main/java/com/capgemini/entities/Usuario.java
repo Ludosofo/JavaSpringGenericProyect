@@ -22,6 +22,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.springframework.util.DigestUtils;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +37,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name="usuarios")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Usuario.class )
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -65,4 +70,9 @@ public class Usuario implements Serializable{
 
 	@OneToMany(mappedBy="usuario")
     private List<Oferta> ofertas;
+
+	@OneToMany(mappedBy="usuario")
+    private List<Valoracion> valoraciones;
+
+	
 }

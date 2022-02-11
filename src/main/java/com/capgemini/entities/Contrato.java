@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,7 @@ public class Contrato implements Serializable{
 	private LocalDate fecha_creacion;
 	
 	@ManyToOne 
+	@JsonBackReference(value="contrat")
 	private Usuario usuario;
 	
 	

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class Valoracion implements Serializable{
 	
 	@NotNull
 	@ManyToOne
+	@JsonBackReference(value="valora")
 	public Usuario usuario; 
 
 }
