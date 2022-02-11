@@ -2,12 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>LemonApp Ofertas</title>
+<title>Lista de productos</title>
 </head>
 <body>
-
 <h1> Lista de ofertas </h1>
-
 	<div th:each=" oferta : ${listaProductos}">
 		<h3 th:text="${oferta.titulo}"></h3>
 		<p th:text="${oferta.descripcion}"></p>

@@ -1,6 +1,9 @@
 package com.capgemini.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +19,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+
+import org.springframework.util.DigestUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,22 +40,10 @@ public class Usuario implements Serializable{
 	private Long id;
 	
 	@NotNull
-	@NotEmpty(message = "ERROR su alias no puede estar vacio")
+	@NotEmpty(message = "ERROR: Su alias no puede estar vacio")
 	@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
 	@Column( unique = true)
 	private String alias;
-	
-	// @NotNull
-	// @NotEmpty(message = "ERROR su nombre no puede estar vacio")
-	// @Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
-	@Null
-	private String nombre;
-	
-	//@NotNull
-	//@NotEmpty(message = "ERROR su apellidos no puede estar vacio")
-	//@Size( min = 4, max = 20, message = "El nombre tiene que estar entre 4 y 20 caracteres")
-	@Null
-	private String apellidos;
 
 	@NotNull
 	@NotEmpty(message = "ERROR: su password no puede estar vacio")
