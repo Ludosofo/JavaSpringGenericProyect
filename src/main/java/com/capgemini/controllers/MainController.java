@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
 @RequestMapping("/")
 public class MainController implements Serializable {
@@ -38,24 +37,29 @@ public class MainController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 	private static final String defaultUserURL = "";
-	@Autowired private IUsuarioServ usuarioService;
-	@Autowired private IOfertaServ ofertaService;
+	@Autowired
+	private IUsuarioServ usuarioService;
+	@Autowired
+	private IOfertaServ ofertaService;
 	private AuxiliarFunctions auxFunctions;
-
-
-	
 
 	// Cambio para testear
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina
 
+	public boolean confirmSession(HttpServletRequest request){
+		String key = (String) request.getSession().getAttribute("PUBLIC_KEY");
+		System.out.println("Nuestra key es "+key);
+		return false;
+	}
 
 	@GetMapping()
 	public ModelAndView getIndex(HttpServletResponse response, HttpServletRequest request) {
+		confirmSession(request);
 		ModelAndView mav = new ModelAndView("landingPage");
 		Usuario usuarioDefault = new Usuario();
 		mav.addObject("usuario", usuarioDefault);
 
-		if(request.getSession().getAttribute("user")!=null){
+		if (request.getSession().getAttribute("user") != null) {
 			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 			mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
 		}
@@ -65,13 +69,14 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro y lanzamiento a pagina de redirección
 	@PostMapping("/register")
-	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, HttpServletResponse response, Model model) {
+	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, HttpServletResponse response,
+			Model model) {
 		System.out.println(usuario);
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
 
-			usuario.setPass( auxFunctions.getMd5(usuario.getPass()));
+			usuario.setPass(auxFunctions.getMd5(usuario.getPass()));
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
 			mav.addObject("miliseconds", "2000");
@@ -84,18 +89,15 @@ public class MainController implements Serializable {
 	}
 
 	@PostMapping("/checkUsuario")
-	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
+	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request,
+			@ModelAttribute(name = "usuario") Usuario usuario) {
 		ModelAndView mav = new ModelAndView();
 
-
-		
-		
-		
-//		List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-//		messages.add("Mensaje 1");
-//		messages.add("Mensaje 2");
-//		request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
-
+		// List<String> messages = (List<String>)
+		// request.getSession().getAttribute("MY_SESSION_MESSAGES");
+		// messages.add("Mensaje 1");
+		// messages.add("Mensaje 2");
+		// request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
 
 		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
 
@@ -108,12 +110,13 @@ public class MainController implements Serializable {
 			session.setAttribute("PUBLIC_KEY", key);
 			session.setAttribute("MSG", "Este msg fue creado en /checkUsuario");
 			// Pasamos JS que se guarda en cliente
-			String jscript = "sessionStorage.setItem('user','"+cuenta.getAlias()+"');"+"sessionStorage.setItem('pass','"+cuenta.getPass()+"');";
+			String jscript = "sessionStorage.setItem('user','" + cuenta.getAlias() + "');"
+					+ "sessionStorage.setItem('pass','" + cuenta.getPass() + "');";
 			mav.addObject("jscript", jscript);
 			mav.addObject("user", cuenta.toString());
-			// mav.setViewName("index");
-			System.out.println("Llamos a listaProductos");
-			return this.listaProductos(); // Retornamos el model and view de otro metodo
+			mav.setViewName("welcome");
+			System.out.println("Llamos a Welcome");
+			// return this.listaProductos(); // Retornamos el model and view de otro metodo
 		} else {
 			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "/landingPage");
@@ -140,8 +143,8 @@ public class MainController implements Serializable {
 	// Antes esto tenia @ModelAttribute(name = "oferta") Oferta oferta
 	// ¿POR QUÉ LISTA PRODUCTOS RECIBE OFERTA?
 	@GetMapping("/listaProductos")
-	public ModelAndView listaProductos() {
-
+	public ModelAndView listaProductos(HttpServletRequest request) {
+		confirmSession(request);
 		ModelAndView mav = new ModelAndView("template");
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
@@ -168,8 +171,12 @@ public class MainController implements Serializable {
 
 	// CREA PRODUCTOS
 	@PostMapping("/crearProducto")
-	public String formCreacionProducto(@ModelAttribute(name = "oferta") Oferta oferta,
-			@RequestParam(name = "file") MultipartFile imagen) {
+	public String formCreacionProducto(
+			@ModelAttribute(name = "oferta") Oferta oferta,
+			@RequestParam(name = "file") MultipartFile imagen,
+			HttpServletRequest request) {
+
+		System.out.println(">> Mi usuario es " + request.getSession().getAttribute("MY_USER"));
 		if (!imagen.isEmpty()) {
 			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
 			try {
@@ -210,25 +217,31 @@ public class MainController implements Serializable {
 		return "redirect:/listaProductos";
 	}
 
-	// @GetMapping("/test")
-	// public ModelAndView test(HttpServletResponse response, HttpServletRequest request){
-	// 	ModelAndView mav = new ModelAndView("test");
-	// 	mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
-	// 	mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
-	// 	mav.addObject("MSG", request.getSession().getAttribute("MSG"));
-	// 	return mav;
-	// }
+	@GetMapping("/test")
+	public ModelAndView test(HttpServletResponse response, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("test");
+
+		// 0. Obtención de datos de getSession()
+		// mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+		// mav.addObject("PUBLIC_KEY", request.getSession().getAttribute("PUBLIC_KEY"));
+		// mav.addObject("MSG", request.getSession().getAttribute("MSG"));
+
+		Usuario usuario = usuarioService.findById(1);
+		mav.addObject("title", "Tratamos de obtener usuario 1");
+		mav.addObject("data", usuario.toString());
+		return mav;
+	}
 
 }
 
-	/*
-	 * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
-	 * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
-	 * Podría ir aparte y ser llamado por saveUsuario ) - saveOferta (
-	 * creación/edición ) - saveContrato ( creación/edición ) - deleteOferta ( ) -
-	 * deleteUsuario ( darse de baja ? ) - getContrato - deleteContrato ( borrar
-	 * oferta SOLO si no está cerrado ) - saveValoracion ( creación/valoracion )
-	 * 
-	 * WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente
-	 * Esto requiere documentarse sobre seguridad y creación de cookies
-	 */
+/*
+ * - index - getUsuario ( obtener perfil ) - saveUsuario ( creación/edición ) -
+ * getListOfertas ( Hacer un filtro entre las ofertas ) - saveUsuarioImagen (
+ * Podría ir aparte y ser llamado por saveUsuario ) - saveOferta (
+ * creación/edición ) - saveContrato ( creación/edición ) - deleteOferta ( ) -
+ * deleteUsuario ( darse de baja ? ) - getContrato - deleteContrato ( borrar
+ * oferta SOLO si no está cerrado ) - saveValoracion ( creación/valoracion )
+ * 
+ * WARNING!!! Tenemmos que manejar un usuario conectado desde el cliente
+ * Esto requiere documentarse sobre seguridad y creación de cookies
+ */
