@@ -20,7 +20,12 @@
 <body>
     <nav class="lemon">
         <a href="/#"></a><span class="text-logo">LemonApp</span></a>
-        <section class="spacer"></section>
+        <section class="spacer">
+            <a href="/listaProductos">listaProductos</a>
+            <a href="/perfilUsuario" th:text="${user}">perfil</a>
+            <a href="/crearProducto">crearProducto</a>
+            <a href="/subeProducto">subeProducto</a>
+        </section>
         <span th:text="${user}"></span>
     </nav>
     <section class="content" th:include="${content}">
@@ -35,3 +40,7 @@
     </footer>
 </body>
 </html>
+
+
+
+
