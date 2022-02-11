@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,6 +64,9 @@ public class Usuario implements Serializable{
 	private String geo;
 	private String avatar; // Esto sería un dato obtenido de una imagen
 
-	@OneToMany(mappedBy="usuario")
+	// 1. mappedBy busca a la entidad propietaria
+	// 2. cascade hace que si usuario es eliminado el borrado afecte a las columnas enlazas
+	// 3. Cada cuanto tiempo buscamos los datos
+	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Oferta> ofertas;
 }

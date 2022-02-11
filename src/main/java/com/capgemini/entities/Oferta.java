@@ -55,6 +55,7 @@ public class Oferta implements Serializable {
 	private String precio;
 	
 	@ManyToOne
+	@NotNull
 	public Usuario usuario;
 	
 //	@OneToMany(mappedBy="oferta")
