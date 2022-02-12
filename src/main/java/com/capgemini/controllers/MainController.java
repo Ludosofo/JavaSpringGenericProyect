@@ -86,37 +86,19 @@ public class MainController implements Serializable {
 	}
 
 	@PostMapping("/checkUsuario")
-	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request,
-			@ModelAttribute(name = "usuario") Usuario usuario) {
+	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
 		ModelAndView mav = new ModelAndView();
-
-		// List<String> messages = (List<String>)
-		// request.getSession().getAttribute("MY_SESSION_MESSAGES");
-		// messages.add("Mensaje 1");
-		// messages.add("Mensaje 2");
-		// request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
-
 		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
 
-		if (cuenta != null) {
-			String user = cuenta.getAlias();
-			String key = cuenta.getPass();
-			// HttpSession session = auxFunctions.setSession(request, user, key);
+		if (cuenta != null) {	
+			// Establecemos la session
 			HttpSession session = request.getSession(true);
-			session.setAttribute("MY_USER", user);
-			session.setAttribute("PUBLIC_KEY", key);
-			session.setAttribute("MSG", "Este msg fue creado en /checkUsuario");
-			// Pasamos JS que se guarda en cliente
-			String jscript = "sessionStorage.setItem('user','" + cuenta.getAlias() + "');"
-					+ "sessionStorage.setItem('pass','" + cuenta.getPass() + "');";
-			mav.addObject("jscript", jscript);
-			mav.addObject("user", cuenta.toString());
-			mav.setViewName("welcome");
-			System.out.println("Llamos a Welcome");
-			// return this.listaProductos(); // Retornamos el model and view de otro metodo
+			session.setAttribute("MY_USER", cuenta.getAlias());
+			session.setAttribute("PUBLIC_KEY", cuenta.getPass());
+			return this.getIndex(response, request); // Retornamos el model and view de otro metodo
 		} else {
 			// No tenemos usuario, mostramos mensaje y redirigimos
-			mav.addObject("redirect", "/landingPage");
+			mav.addObject("redirect", "/");
 			mav.addObject("mensaje", "Las claves enviadas no son validas");
 			mav.addObject("miliseconds", "3000");
 			mav.addObject("jscript", "");
