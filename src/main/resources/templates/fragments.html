@@ -1,6 +1,16 @@
+<!-- 
+    Este archivo contiene diferentes forms que podríamos llegar a reutilizar de una vista a otra
+    ¿Como se ponen en las paginas?
+        - definir el fragmento                      // th:fragment="formulario"
+        - añadir este fragmento a otro archivo      // th:replace="fragments :: formulario"
+
+    
+-->
+
 
 <!-- formulario de login dirige a checkUsuario que obtendrá datos y configurará las cookies -->
-<form th:fragment="formLogin" th:object="${usuario}" method="post" th:action="@{/checkUsuario}" class="bg-white d-inline-flex border ml-1">
+<form th:fragment="formLogin" th:object="${usuario}" method="post" th:action="@{/checkUsuario}"
+    class="bg-white d-inline-flex border ml-1">
     <fieldset>
         <legend>Inicia sesión</legend>
         <div class="mb-3">
@@ -18,7 +28,9 @@
     </fieldset>
 </form>
 
-<form th:fragment="formRegister" th:object="${usuario}" method="post" th:action="@{/register}" class="bg-white d-inline-flex border">
+<!-- Formulario de registro -->
+<form th:fragment="formRegister" th:object="${usuario}" method="post" th:action="@{/register}"
+    class="bg-white d-inline-flex border">
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
         <div class="mb-3">
@@ -37,4 +49,27 @@
             <a href="#">¿Olvidaste constraseña?</a>
         </div>
     </fieldset>
+</form>
+
+<!-- Formulario de modificación de productos -->
+<form th:fragment="formOferta" th:object="${oferta}" action="/saveOferta" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <input type="hidden" th:field="${oferta.id}">
+    </div>
+    <div class="mb-3">
+        <input type="text" th:field="${oferta.titulo}">
+    </div>
+    <div class="mb-3">
+        <textarea name="descripcion" th:text="${oferta.descripcion}"></textarea>
+    </div>
+    <div class="mb-3">
+        <input type="number" th:field="${oferta.precio}">
+    </div>
+    <div class="mb-3">
+        <img id="currentImg" th:alt="${updateOferta.imagenes}" th:src="@{'/RecursosBack/'} + ${updateOferta.imagenes}">
+        <input type="file" name="file" required="required">
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Actualizar"/>
+    </div>
 </form>
