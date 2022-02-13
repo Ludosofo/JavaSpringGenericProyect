@@ -46,26 +46,32 @@
 </form>
 
 <!-- Formulario de creación/modificación de productos -->
-<form th:fragment="formOferta" th:object="${oferta}" action="/saveOferta" method="post" enctype="multipart/form-data">
-    <div class="mb-3">
-        <input type="hidden" th:field="${oferta.id}">
-    </div>
-    <div class="mb-3">
-        <input type="text" th:field="${oferta.titulo}">
-    </div>
-    <div class="mb-3">
-        <textarea name="descripcion" th:text="${oferta.descripcion}"></textarea>
-    </div>
-    <div class="mb-3">
-        <input type="number" th:field="${oferta.precio}">
-    </div>
-    <div class="mb-3">
-        <img id="currentImg" th:alt="${updateOferta.imagenes}" th:src="@{'/RecursosBack/'} + ${updateOferta.imagenes}">
-        <input type="file" name="file" required="required">
-    </div>
-    <div class="mb-3">
-        <input type="submit" class="btn btn-primary" value="Actualizar" />
-    </div>
+<form th:fragment="formOferta" th:object="${oferta}" th:class="form" action="/saveOferta" method="post"
+    enctype="multipart/form-data">
+    <fieldset>
+        <legend class="text-center">Crear/Editar Oferta</legend>
+        <div class="mb-3">
+            <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+        </div>
+        <div class="mb-3">
+            <input class="form-input w-100" type="hidden" th:field="${oferta.id}">
+        </div>
+        <div class="mb-3">
+            <input class="form-input w-100" type="text" placeholder="Titulo" th:field="${oferta.titulo}">
+        </div>
+        <div class="mb-3">
+            <textarea class="form-input w-100" style="height: 100px;" name="Descripcion del producto" th:text="${oferta.descripcion}" placeholder="Descripción del producto"></textarea>
+        </div>
+        <div class="mb-3">
+            <input type="number" step="0.01" min="0.99" placeholder="Precio" class="form-input w-100" th:field="${oferta.precio}">
+        </div>
+        <div class="mb-3">
+            <input type="file" class="w-100" name="file" required="required">
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary w-100" value="Actualizar" />
+        </div>
+    </fieldset>
 </form>
 
 
@@ -83,12 +89,13 @@
             </li>
         </ul>
         <form class="form-inline w-75 my-6 my-lg-0" align="center">
-            <input class="form-control mr-sm-2 w-50 d-inline-flex" type="search" placeholder="Buscar" aria-label="Search">
+            <input class="form-control mr-sm-2 w-50 d-inline-flex" type="search" placeholder="Buscar"
+                aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0 d-inline" type="submit">Buscar</button>
         </form>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#"><button class="btn btn-success">Vender</button></a>
+                <a class="nav-link" th:href="@{/oferta/crear}"><button class="btn btn-success">Vender</button></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>

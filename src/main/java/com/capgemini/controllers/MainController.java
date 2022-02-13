@@ -147,10 +147,8 @@ public class MainController implements Serializable {
 		return userImgURL;
 	}
 
-	// MUESTRA PRODUCTOS
-	// Antes esto tenia @ModelAttribute(name = "oferta") Oferta oferta
-	// ¿POR QUÉ LISTA PRODUCTOS RECIBE OFERTA?
-	@GetMapping("/listaProductos")
+	// Las de ofertas AKA listaProductos
+	@GetMapping("/ofertas/")
 	public ModelAndView listaProductos( HttpServletRequest request ) {
 		if(!confirmSession(request)){ return this.landingPage(); }
 		ModelAndView mav = new ModelAndView("template");
@@ -161,10 +159,12 @@ public class MainController implements Serializable {
 		return mav;
 	}
 
-	// SUBE PRODUCTOS
-	@GetMapping("/subeProducto")
-	public ModelAndView subirProducto(@ModelAttribute(name = "oferta") Oferta oferta) {
-		ModelAndView mav = new ModelAndView("subeProducto");
+	// Creamos una nueva oferta
+	@GetMapping("/oferta/crear")
+	public ModelAndView crearOferta(@ModelAttribute(name = "oferta") Oferta oferta, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("template");
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
+		mav.addObject("content", "oferta");
 		mav.addObject("oferta", new Oferta());
 		return mav;
 	}
