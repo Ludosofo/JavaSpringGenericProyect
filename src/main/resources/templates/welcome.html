@@ -7,10 +7,19 @@
     <title>Bienvenido</title>
 </head>
 <body>
-    <h2>Información de usuario</h2>
-    <div th:text="${user}"></div>
-    <div><a href="/test">Ir a la pagina de test</a></div>
+    <h1>¡Bienvenido!</h1>
+    <h1 th:text="${MY_USER}"></h1>
+    
+    
+    <!-- <div><a href="/test">Ir a la pagina de test</a></div>
     <div th:inner="${jscript}"></div>
-    <script th:inline="javascript">/*<![CDATA[*/ var code = /*[[${jscript}]]*/ "default"; eval(code); /*]]>*/</script>
+    <script th:inline="javascript">/*<![CDATA[*/ var code = /*[[${jscript}]]*/ "default"; eval(code); /*]]>*/</script> -->
+
 </body>
+<script>
+    setInterval( function(){
+        console.log("Redirigiendo");
+        window.location.href = "/listaProductos";
+    }, 15000);
+</script>
 </html>

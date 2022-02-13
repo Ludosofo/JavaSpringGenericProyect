@@ -47,10 +47,14 @@ public class MainController implements Serializable {
 	// Estás conectado ? Pues debería redireccionarnos a otra pagina
 
 	public boolean confirmSession(HttpServletRequest request){
+		System.out.println("----- confirmSession()");
+		System.out.println(request.getSession().getAttribute("PUBLIC_KEY"));
+		System.out.println(request.getSession().getAttribute("MY_USER"));
+		
 		String key = (String) request.getSession().getAttribute("PUBLIC_KEY");
 		String user = (String) request.getSession().getAttribute("MY_USER");
 
-		if(key!=null && user!=null){
+		if(key==null && user==null){
 			System.out.println(">>>>>>> SESSION VACIA");
 			return false;
 		}
@@ -113,7 +117,8 @@ public class MainController implements Serializable {
 			String jscript = "sessionStorage.setItem('user','" + cuenta.getAlias() + "');"
 					+ "sessionStorage.setItem('pass','" + cuenta.getPass() + "');";
 			mav.addObject("jscript", jscript);
-			mav.addObject("user", cuenta.toString());
+			mav.addObject("MY_USER", session.getAttribute("MY_USER"));
+			mav.addObject("PUBLIC_KEY", session.getAttribute("MY_USER"));
 			System.out.println(">>>>>>>>>> Llamamos a Welcome");
 			mav.setViewName("welcome");
 
@@ -133,6 +138,7 @@ public class MainController implements Serializable {
 	// TO_REVIEW
 	@GetMapping("/getImgByUser/{id}")
 	public String getImgByUser(@PathVariable(name = "id") Long id, Model model) {
+		
 		String userImgURL = defaultUserURL;
 		String userImgCandidate = usuarioService.getImgByUser(id);
 		if (userImgCandidate != "") {
@@ -146,7 +152,7 @@ public class MainController implements Serializable {
 	// ¿POR QUÉ LISTA PRODUCTOS RECIBE OFERTA?
 	@GetMapping("/listaProductos")
 	public ModelAndView listaProductos( HttpServletRequest request ) {
-		// confirmSession(request);
+		if(!confirmSession(request)){ return this.landingPage(); }
 		ModelAndView mav = new ModelAndView("template");
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
