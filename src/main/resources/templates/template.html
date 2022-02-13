@@ -11,33 +11,25 @@
         *{ padding: 0px; margin: 0px; }
         .lemon{ background-color: #fff943; }
         .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 1px 1px; font-size: 3rem; margin-left: 2rem; }
-        form{ padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
+        .formLogin{ padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
         section.spacer{ flex: 1 1 auto; }
         section.content{ height: 100%; }
         footer{ background-color: #000000; }
     </style>
 </head>
 <body>
-    <nav class="lemon">
-        <a href="/#"></a><span class="text-logo">LemonApp</span></a>
-        <section class="spacer">
-            <a href="/listaProductos">listaProductos</a>
-            <a href="/perfilUsuario" th:text="${user}">perfil</a>
-            <a href="/crearProducto">crearProducto</a>
-            <a href="/subeProducto">subeProducto</a>
-        </section>
-        <span th:text="${user}"></span>
-    </nav>
+    <div th:replace="fragments :: navbar"></div>
     <section class="content" th:include="${content}">
     </section>
-    <footer>
+    <!-- Desconectamos la parte del footer temporalmente -->
+    <!-- <footer>
         <ul>
             <li>Copyright 2021-2022</li>
             <li>Lemon App</li>
             <li>Cyborg</li>
             <li>Todos los derechos reservados</li>
         </ul>
-    </footer>
+    </footer> -->
 </body>
 </html>
 

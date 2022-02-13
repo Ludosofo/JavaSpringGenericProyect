@@ -9,7 +9,7 @@
 <h3>Actualizar Producto</h3>
 	<hr />
 
-	<form  th:action="@{/modificaProducto}" th:object="${updateOferta}" method="post" 
+	<form th:action="@{/modificaProducto}" th:object="${updateOferta}" method="post" 
 	 enctype="multipart/form-data">
 		<p class="text">
 			<label></label> <input type="hidden" th:field="*{id}" />

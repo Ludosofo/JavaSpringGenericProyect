@@ -2,14 +2,11 @@
     Este archivo contiene diferentes forms que podríamos llegar a reutilizar de una vista a otra
     ¿Como se ponen en las paginas?
         - definir el fragmento                      // th:fragment="formulario"
-        - añadir este fragmento a otro archivo      // th:replace="fragments :: formulario"
-
-    
+        - añadir este fragmento a otro archivo      // th:replace="fragments :: formulario" 
 -->
 
-
 <!-- formulario de login dirige a checkUsuario que obtendrá datos y configurará las cookies -->
-<form th:fragment="formLogin" th:object="${usuario}" method="post" th:action="@{/checkUsuario}"
+<form th:fragment="formLogin" th:object="${usuario}" th:class="form" method="post" th:action="@{/checkUsuario}"
     class="bg-white d-inline-flex border ml-1">
     <fieldset>
         <legend>Inicia sesión</legend>
@@ -29,7 +26,7 @@
 </form>
 
 <!-- Formulario de registro -->
-<form th:fragment="formRegister" th:object="${usuario}" method="post" th:action="@{/register}"
+<form th:fragment="formRegister" th:object="${usuario}" th:class="form" method="post" th:action="@{/register}"
     class="bg-white d-inline-flex border">
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
@@ -44,9 +41,6 @@
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Registrate">
-        </div>
-        <div class="mb-3">
-            <a href="#">¿Olvidaste constraseña?</a>
         </div>
     </fieldset>
 </form>
@@ -70,6 +64,48 @@
         <input type="file" name="file" required="required">
     </div>
     <div class="mb-3">
-        <input type="submit" value="Actualizar"/>
+        <input type="submit" class="btn btn-primary" value="Actualizar"/>
     </div>
 </form>
+
+
+<!-- La barra de template -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light lemon">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">LemonApp</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Vender</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" th:text="${user}">${username}</a>
+          </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Cerca de ti</a>
+            <a class="dropdown-item" href="#">Orden Alfabetico</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>

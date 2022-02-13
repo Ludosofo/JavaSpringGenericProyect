@@ -66,13 +66,14 @@ public class MainController implements Serializable {
 
 	// Procesamiento del registro y lanzamiento a pagina de redirección
 	@PostMapping("/register")
-	public ModelAndView saveUsuario(@ModelAttribute(name = "usuario") Usuario usuario, HttpServletResponse response,
-			Model model) {
-		System.out.println(usuario);
+	public ModelAndView saveUsuario(
+		@ModelAttribute(name = "usuario") Usuario usuario,
+		HttpServletResponse response,
+		Model model){
+
 		ModelAndView mav = new ModelAndView("basic-msg");
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
-
 			usuario.setPass(auxFunctions.getMd5(usuario.getPass()));
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
@@ -128,6 +129,7 @@ public class MainController implements Serializable {
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 		return mav;
 	}
 
