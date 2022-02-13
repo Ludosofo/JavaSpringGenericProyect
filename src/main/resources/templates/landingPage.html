@@ -12,7 +12,7 @@
         .lemon{ background-color: #fff943; }
         .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 4px 4px;}
         .title-large{ font-size: 9em; text-align: center; margin: 16px auto 24px; }
-        form{ padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
+        form{ padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; display: inline-block; background-color: white; }
         
     </style>
 </head>
@@ -20,6 +20,7 @@
     <h1 class="text-logo title-large">LemonApp</h1>
     <h2 class="text-center">Limones cerca de tu zona te están esperando</h2>
     <h2 class="text-center">¡Ven al bando de la huerta!</h2>
+    <h1 th:text="'MY_USER:'+${MY_USER}"></h1>
 
     <div class="containter" align="center">
         <div th:replace="fragments :: formLogin"></div>

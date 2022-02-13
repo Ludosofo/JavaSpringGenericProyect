@@ -48,7 +48,16 @@ public class MainController implements Serializable {
 
 	public boolean confirmSession(HttpServletRequest request){
 		String key = (String) request.getSession().getAttribute("PUBLIC_KEY");
-		if(usuarioService.getUserByKey(key)!=null){ return true; }
+		String user = (String) request.getSession().getAttribute("MY_USER");
+
+		if(key!=null && user!=null){
+			System.out.println(">>>>>>> SESSION VACIA");
+			return false;
+		}
+		if(usuarioService.getUserByKey(key)!=null){
+			System.out.println(">>>>> confirmamos el usuario");
+			return true;
+		}
 		return false;
 	}
 
@@ -75,6 +84,7 @@ public class MainController implements Serializable {
 		mav.addObject("redirect", "http://localhost:8080");
 		try {
 			usuario.setPass(auxFunctions.getMd5(usuario.getPass()));
+			usuario.setMail(usuario.getMail().toLowerCase()); // Nos aseguramos de que el correo este en minusculas
 			usuarioService.save(usuario);
 			mav.addObject("mensaje", "Usuario registrado correctamente");
 			mav.addObject("miliseconds", "2000");
@@ -94,9 +104,21 @@ public class MainController implements Serializable {
 		if (cuenta != null) {	
 			// Establecemos la session
 			HttpSession session = request.getSession(true);
+
+			System.out.println(cuenta.toString());
 			session.setAttribute("MY_USER", cuenta.getAlias());
 			session.setAttribute("PUBLIC_KEY", cuenta.getPass());
-			return this.getIndex(response, request); // Retornamos el model and view de otro metodo
+
+			// Pasamos JS que se guarda en cliente
+			String jscript = "sessionStorage.setItem('user','" + cuenta.getAlias() + "');"
+					+ "sessionStorage.setItem('pass','" + cuenta.getPass() + "');";
+			mav.addObject("jscript", jscript);
+			mav.addObject("user", cuenta.toString());
+			System.out.println(">>>>>>>>>> Llamamos a Welcome");
+			mav.setViewName("welcome");
+
+			// Return to getIndex se carga la session
+			//// return this.getIndex(response, request); // Retornamos el model and view de otro metodo
 		} else {
 			// No tenemos usuario, mostramos mensaje y redirigimos
 			mav.addObject("redirect", "/");
@@ -123,13 +145,13 @@ public class MainController implements Serializable {
 	// Antes esto tenia @ModelAttribute(name = "oferta") Oferta oferta
 	// ¿POR QUÉ LISTA PRODUCTOS RECIBE OFERTA?
 	@GetMapping("/listaProductos")
-	public ModelAndView listaProductos(HttpServletRequest request) {
-		confirmSession(request);
+	public ModelAndView listaProductos( HttpServletRequest request ) {
+		// confirmSession(request);
 		ModelAndView mav = new ModelAndView("template");
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
-		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
 		return mav;
 	}
 
