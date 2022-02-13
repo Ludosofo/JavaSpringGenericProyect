@@ -25,21 +25,12 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @Table(name="ofertas")
 public class Oferta implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	
-//	
-//	@ManyToOne
-//	@NotNull
-//	private OfertaStatus status;
-//	
 	
 	@NotNull
 	@NotEmpty(message = "Inserte un título para su oferta")
@@ -50,20 +41,14 @@ public class Oferta implements Serializable {
 	@NotEmpty(message = "Inserte una descripción para su oferta")
 	@Size(min = 3, max = 400, message = "La descripción del producto debe contenter entre  3 y 400 caracteres")
 	private String descripcion;
-	
-	
-	private String precio;
+
+	private double precio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@NotNull
 	public Usuario usuario;
-	
-//	@OneToMany(mappedBy="oferta")
-//	public List<OfertaImagenes> ofertaImagenes;
-	
+
 	public String imagenes;
-	
-	
 } 
 	
 	
