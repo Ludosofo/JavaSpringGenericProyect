@@ -5,6 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido</title>
+    <style>
+                /* No debería usar muchas etiquetas de css por posibles conflictos con bootstrap */
+                *{ padding: 0px; margin: 0px; }
+        .lemon{ background-color: #fff943; }
+        .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 1px 1px; font-size: 3rem; margin-left: 2rem; }
+        .form{ display: inline-block; background-color: red; padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
+        section.spacer{ flex: 1 1 auto; }
+        section.content{ height: 100%; }
+        footer{ background-color: #000000; }
+        h1, h2{ text-align: center; }
+    </style>
 </head>
 <body>
     <h1>¡Bienvenido!</h1>
@@ -20,6 +31,6 @@
     setInterval( function(){
         console.log("Redirigiendo");
         window.location.href = "/listaProductos";
-    }, 15000);
+    }, 1500);
 </script>
 </html>
