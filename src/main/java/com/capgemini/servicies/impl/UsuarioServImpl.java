@@ -1,5 +1,6 @@
 package com.capgemini.servicies.impl;
 
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,19 +52,6 @@ public class UsuarioServImpl implements IUsuarioServ{
 	public void guardaUsuario(Usuario usuario) {
 		daoUsuario.save(usuario);	
 	}
-	
-//	@Override
-//	// Pone ASC pero es DESCENTE JAJSAJSJAJSJASJAJSJASAjaj! SOY SUBNORMAL!!!
-//	public List<Usuario> findAllByOrderByIdAsc() {
-//		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
-//	}
-
-	@Override
-	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
-		pass = AuxiliarFunctions.getMd5( pass );
-		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
-		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
-	}
 
 	@Override
 	public List<Usuario> findAllByOrderByIdAsc() {
@@ -73,7 +61,15 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public List<Usuario> findAllByOrderByIdDesc() {
-		return daoUsuario.findAll();
+		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
+	}
+
+
+	@Override
+	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
+		pass = AuxiliarFunctions.getMd5( pass );
+		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
+		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
 	}
 
 	@Override

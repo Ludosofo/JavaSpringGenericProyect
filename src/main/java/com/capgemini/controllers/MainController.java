@@ -178,24 +178,48 @@ public class MainController implements Serializable {
 		return "modificarProducto";
 	}
 
+	// FOCUS: Tenemos que conseguir que la oferta tambien guarde el usuario
+
 	// CREA PRODUCTOS
-	@PostMapping("/crearProducto")
+	@PostMapping("/saveOferta")
 	public String formCreacionProducto(
 			@ModelAttribute(name = "oferta") Oferta oferta,
 			@RequestParam(name = "file") MultipartFile imagen,
-			HttpServletRequest request) {
+			HttpServletRequest request)
+	{
 
-		System.out.println(">> Mi usuario es " + request.getSession().getAttribute("MY_USER"));
-		if (!imagen.isEmpty()) {
-			String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
+		// Set de datos
+		String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
+		String my_user = (String) request.getSession().getAttribute("MY_USER");
+		String public_key = (String) request.getSession().getAttribute("PUBLIC_KEY");
+		
+		Usuario usuario = usuarioService.getUserByKey(public_key);
+
+		// Show data
+		System.out.println(">> Mi usuario es " + my_user );
+		System.out.println(">> Mi public_key es " + public_key );
+		System.out.println(">> Usuario es: "+ usuario.toString());
+		System.out.println(">> Imagen es: "+imagen.toString());
+
+		// Añadimos datos a oferta
+		oferta.setUsuario(usuario); 
+
+		System.out.println(">> Oferta es: "+oferta.toString());
+
+		if (!imagen.isEmpty() && usuario!=null) {
+			
 			try {
 				byte[] bytesImages = imagen.getBytes();
 				Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
 				LOG.info("ruta completa:" + rutaCompleta);
 				Files.write(rutaCompleta, bytesImages);
+				
+				// TODO: Guardar imagen con algo random
 				oferta.setImagenes(imagen.getOriginalFilename());
 
 				System.out.println(" >> Antes del error"); // TODO: Tenemos un error aquí
+
+				oferta.setUsuario(usuario);
 				ofertaService.save(oferta);
 			} catch (IOException e) {
 
