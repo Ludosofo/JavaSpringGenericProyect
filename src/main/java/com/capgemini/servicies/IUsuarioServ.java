@@ -24,7 +24,7 @@ public interface IUsuarioServ {
     public Usuario getUserByKey(String key);
 
     public Usuario getUserByName(String name);
-
+   
     
 
 }

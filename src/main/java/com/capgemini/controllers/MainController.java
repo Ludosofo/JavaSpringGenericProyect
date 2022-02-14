@@ -210,7 +210,7 @@ public class MainController implements Serializable {
 		Usuario usuario = usuarioService.getUserByName(name);
 		mav.addObject("usuario", usuario);
 		mav.addObject("content", "perfilUsuario");
-		mav.addObject("listaproductos", ofertaService.findAll());
+		mav.addObject("listaproductos", ofertaService.findAllByUser(usuario));
 		return mav;
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.controllers.AuxiliarFunctions;
 import com.capgemini.dao.IUsuarioDao;
+import com.capgemini.entities.Oferta;
 import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IUsuarioServ;
 
@@ -82,5 +83,7 @@ public class UsuarioServImpl implements IUsuarioServ{
 		// TODO Auto-generated method stub
 		return daoUsuario.getUsuarioByName(name);
 	}
+
+
 
 }

@@ -1,7 +1,8 @@
 package com.capgemini.servicies.impl;
 
 import java.util.List;
-
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.capgemini.dao.IOfertaDao;
 
 import com.capgemini.entities.Oferta;
+import com.capgemini.entities.Usuario;
 import com.capgemini.servicies.IOfertaServ;
 
 @Service
@@ -40,6 +42,14 @@ public class OfertaServImpl implements IOfertaServ{
 	public void save(Oferta oferta) {
 		// TODO Auto-generated method stub
 		daoOferta.save(oferta);
+		
+	}
+
+	@Override
+	public List<Oferta> findAllByUser(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return daoOferta.findAll().stream().filter(o -> o.getUsuario().getId() == usuario.getId()).collect(Collectors.toList());
+
 		
 	}
 }
