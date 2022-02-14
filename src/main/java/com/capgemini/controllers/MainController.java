@@ -156,7 +156,6 @@ public class MainController implements Serializable {
 	@GetMapping("/ofertas")
 	public ModelAndView listaProductos( HttpServletRequest request )
 	{
-		System.out.println("/ofertas/");
 		if(!confirmSession(request)){ return this.landingPage(); }
 		ModelAndView mav = new ModelAndView("template");
 		mav.addObject("content", "listaProductos");
