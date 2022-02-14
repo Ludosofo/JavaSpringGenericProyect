@@ -91,7 +91,7 @@
                 <a class="nav-link" th:href="@{/comunidad}">Comunidad</a>
             </li>
         </ul>
-        <form class="form-inline w-75 my-6 my-lg-0" align="center">
+        <form class="form-inline w-75 my-6 my-lg-0" >
             <input class="form-control mr-sm-2 w-50 d-inline-flex" type="search" placeholder="Buscar"
                 aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0 d-inline" type="submit">Buscar</button>
@@ -101,7 +101,7 @@
                 <a class="nav-link" th:href="@{/oferta/crear}"><button class="btn btn-success">Vender</button></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
+                <a class="nav-link"th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
             </li>
             <li class="nav-item">
                 <a th:href="@{/logout}">Desconectar</a>
