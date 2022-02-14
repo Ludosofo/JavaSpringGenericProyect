@@ -97,7 +97,7 @@ public class MainController implements Serializable {
 			return redirectMessage("http://localhost:8080", "Usuario registrado correctamente", "2000");
 		} catch (Exception e) {
 			System.out.println(usuario.toString());
-			return redirectMessage("http://localhost:8080", e.getMessage(), "9000");
+			return redirectMessage("http://localhost:8080", e.getLocalizedMessage(), "9000");
 		}
 	}
 	
