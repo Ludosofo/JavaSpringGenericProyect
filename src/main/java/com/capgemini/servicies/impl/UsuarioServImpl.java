@@ -61,7 +61,7 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public List<Usuario> findAllByOrderByIdDesc() {
-		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
+		return null; // daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
 
 

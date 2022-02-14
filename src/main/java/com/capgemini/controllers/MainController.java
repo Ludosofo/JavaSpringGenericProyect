@@ -187,12 +187,13 @@ public class MainController implements Serializable {
 			@RequestParam(name = "file") MultipartFile imagen,
 			HttpServletRequest request)
 	{
-
+		System.out.println(">> /saveOferta");
 		// Set de datos
 		String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
 		String my_user = (String) request.getSession().getAttribute("MY_USER");
 		String public_key = (String) request.getSession().getAttribute("PUBLIC_KEY");
 		
+
 		Usuario usuario = usuarioService.getUserByKey(public_key);
 
 		// Show data

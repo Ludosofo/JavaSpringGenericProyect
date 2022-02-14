@@ -69,6 +69,7 @@ public class Usuario implements Serializable{
 	// 1. mappedBy busca a la entidad propietaria
 	// 2. cascade hace que si usuario es eliminado el borrado afecte a las columnas enlazas
 	// 3. Cada cuanto tiempo buscamos los datos
-	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// fetch = FetchType.LAZY
+	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL)
     private List<Oferta> ofertas;
 }
