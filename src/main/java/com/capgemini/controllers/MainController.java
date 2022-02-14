@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -187,7 +188,9 @@ public class MainController implements Serializable {
 		Oferta oferta = ofertaService.findById(id);
 
 		if(usuario.getId() != oferta.getUsuario().getId()){
-			return redirectMessage("http://localhost:8080", "La id de la oferta y el usuario no coincide, no puedes editar", "9000");
+
+			// No somos el usuario que puede modificar esta oferta
+			return redirectMessage("http://localhost:8080", "Señor "+usuario.getAlias()+" no debería poder modificar un producto de "+oferta.getUsuario().getAlias(), "9000");
 		}else{
 			ModelAndView mav = new ModelAndView("template");		
 			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
@@ -282,6 +285,12 @@ public class MainController implements Serializable {
 		mav.addObject("data", usuario.toString());
 		return mav;
 	}
+
+	@RequestMapping(path = "/addToCart/{id}/{key}", method = RequestMethod.GET)
+	public void addToCart(@PathVariable String id, @PathVariable String key) {
+		System.out.println("Soy addToCart/"+id+"/"+key);
+	}
+	
 
 }
 
