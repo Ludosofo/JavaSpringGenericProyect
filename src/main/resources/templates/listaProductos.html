@@ -8,10 +8,10 @@
 		<div th:text="${oferta.precio} + '$'"></div>
 		<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
 	
-		<!-- TODO tengo que incorporar un carrito de compras si o sí para final del proyecto -->
+		<!-- TODO: JR tiene que incorporar la logica de un carrito de compras si o sí para final del proyecto -->
 		<button type="submit">Comprar</button>
 		
-		<!-- TODO: Meter un th:if para que esto solo lo pueda hacer el mismo usuario -->
+		<!-- TODO: Felix Meter un th:if para que esto solo lo pueda hacer el mismo usuario -->
 	<a th:href="@{/oferta/update/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
 </div>
    
