@@ -1,0 +1,35 @@
+
+<!-- Perifl Usuario -->
+
+
+    <fieldset th:object="${usuario}">
+        <legend class="text-center">Perfil del Usuario</legend>
+        <!-- <div class="mb-3">
+            <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+        </div> -->
+        <div class="mb-3">
+            <h1 th:text="${usuario.id}" class=" w-100" type="hidden">
+        </div>
+        <div class="mb-3">
+            <p th:text="${usuario.alias}" class=" w-100" type="text" ></p>
+        </div>
+        <div class="mb-3">
+            <p th:text="${usuario.mail}" class=" w-100" type="text" ></p>
+        </div>
+        
+    </fieldset>
+
+    <div th:each=" oferta : ${listaproductos}">
+	
+		<h3 th:text="${oferta.titulo}"></h3>
+		<p th:text="${oferta.descripcion}"></p>
+		<div th:text="${oferta.precio} + '$'"></div>
+		<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+		
+		
+	<a th:href="@{/oferta/update/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
+</div>
+   
+
+
+

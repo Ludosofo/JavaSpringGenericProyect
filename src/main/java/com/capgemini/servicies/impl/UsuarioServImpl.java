@@ -77,4 +77,10 @@ public class UsuarioServImpl implements IUsuarioServ{
 		return daoUsuario.getUsuarioByKey(public_key);
 	}
 
+	@Override
+	public Usuario getUserByName(String name) {
+		// TODO Auto-generated method stub
+		return daoUsuario.getUsuarioByName(name);
+	}
+
 }

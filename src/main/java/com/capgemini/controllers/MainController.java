@@ -199,6 +199,21 @@ public class MainController implements Serializable {
 		
 	}
 
+	//MOSTRAR EL PERFIL DEL USUARIO POR ID
+
+    @GetMapping("/usuario/{name}")
+	public ModelAndView perfilUsuario(@PathVariable(name = "name") String name , HttpServletRequest request) {
+
+		ModelAndView mav = new ModelAndView("template");
+
+		// Usuario usuario = usuarioService.getUserByKey("PUBLIC_KEY") request.getSession().getAttribute("public_key");
+		Usuario usuario = usuarioService.getUserByName(name);
+		mav.addObject("usuario", usuario);
+		mav.addObject("content", "perfilUsuario");
+		mav.addObject("listaproductos", ofertaService.findAll());
+		return mav;
+	}
+
 	// FOCUS: Tenemos que conseguir que la oferta tambien guarde el usuario
 
 	// CREA PRODUCTOS

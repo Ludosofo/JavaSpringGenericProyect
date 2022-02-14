@@ -22,4 +22,9 @@ public interface IUsuarioServ {
 
     public Usuario findUsuarioByAliasAndPass(String alias, String pass);
     public Usuario getUserByKey(String key);
+
+    public Usuario getUserByName(String name);
+
+    
+
 }
