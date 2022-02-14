@@ -1,20 +1,31 @@
-<h1>Lista de ofertas:</h1>
-<div th:each=" oferta : ${listaProductos}">
-		<h3 th:text="${oferta.titulo}"></h3>
-		<p th:text="${oferta.descripcion}"></p>
-		<div th:text="${oferta.precio} + '$'"></div>
-		<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
-		
-		<button type="submit">Comprar</button>
-	
-	<a th:href="@{/modificaProducto/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
-</div>
-   
-	<a ><button>Subir producto</button></a>
-	
-	
-	
-	
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<h1>Lista de ofertas:</h1>
+	<div class="container">
+		<ul class="list-group" th:each=" oferta : ${listaProductos}">
+			<li class="list-group-item" th:text="${oferta.titulo}">Producto</li>
+			<li class="list-group-item" th:text="${oferta.descripcion}">Descripcion</li>
+			<li class="list-group-item" th:text="${oferta.precio}">Precio</li>
+			<li class="list-group-item" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">Imagenes</li>
+			</ul>
+		<button type="submit">Comprar</button>
+
+		<a th:href="@{/modificaProducto/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
+	</div>
+
+	<a><button>Subir producto</button></a>
 </body>
+
 </html>
