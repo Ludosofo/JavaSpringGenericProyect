@@ -94,7 +94,8 @@ public class MainController implements Serializable {
 			mav.addObject("miliseconds", "2000");
 		} catch (Exception e) {
 			System.out.println(usuario.toString());
-			mav.addObject("mensaje", e.getMessage());
+			
+	mav.addObject("mensaje", e.getLocalizedMessage());
 			mav.addObject("miliseconds", "9000");
 		}
 		return mav;
