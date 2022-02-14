@@ -43,8 +43,7 @@ public class MainController implements Serializable {
 	private IOfertaServ ofertaService;
 	private AuxiliarFunctions auxFunctions;
 
-	// Cambio para testear
-	// Estás conectado ? Pues debería redireccionarnos a otra pagina
+
 
 	public boolean confirmSession(HttpServletRequest request){
 		System.out.println("----- confirmSession()");
@@ -65,6 +64,13 @@ public class MainController implements Serializable {
 		return false;
 	}
 
+	@GetMapping("/logout")	
+	public ModelAndView logout(HttpServletRequest request){
+		HttpSession session=request.getSession();  
+        session.invalidate();
+		return this.landingPage();
+	}
+
 	// NO REGISTRADOS van a la landingPage
 	public ModelAndView landingPage(){
 		return new ModelAndView("landingPage").addObject("usuario", new Usuario());
@@ -83,56 +89,56 @@ public class MainController implements Serializable {
 		@ModelAttribute(name = "usuario") Usuario usuario,
 		HttpServletResponse response,
 		Model model){
-
-		ModelAndView mav = new ModelAndView("basic-msg");
-		mav.addObject("redirect", "http://localhost:8080");
 		try {
 			usuario.setPass(auxFunctions.getMd5(usuario.getPass()));
 			usuario.setMail(usuario.getMail().toLowerCase()); // Nos aseguramos de que el correo este en minusculas
 			usuarioService.save(usuario);
-			mav.addObject("mensaje", "Usuario registrado correctamente");
-			mav.addObject("miliseconds", "2000");
+			return redirectMessage("http://localhost:8080", "Usuario registrado correctamente", "2000");
 		} catch (Exception e) {
 			System.out.println(usuario.toString());
-			mav.addObject("mensaje", e.getMessage());
-			mav.addObject("miliseconds", "9000");
+			return redirectMessage("http://localhost:8080", e.getMessage(), "9000");
 		}
+	}
+	
+	public ModelAndView redirectMessage(String url, String msg, String miliseconds){
+		ModelAndView mav = new ModelAndView("basic-msg");
+		mav.addObject("redirect", url);
+		mav.addObject("mensaje", msg);
+		mav.addObject("miliseconds", miliseconds );
 		return mav;
 	}
 
 	@PostMapping("/checkUsuario")
-	public ModelAndView verifyCredentials(HttpServletResponse response, HttpServletRequest request, @ModelAttribute(name = "usuario") Usuario usuario) {
+	public ModelAndView verifyCredentials(
+		HttpServletResponse response,
+		HttpServletRequest request,
+		@ModelAttribute(name = "usuario") Usuario usuario
+	){
 		ModelAndView mav = new ModelAndView();
-		Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
-
-		if (cuenta != null) {	
-			// Establecemos la session
+		
+		try {
+			Usuario cuenta = usuarioService.findUsuarioByAliasAndPass(usuario.getAlias(), usuario.getPass());
 			HttpSession session = request.getSession(true);
 
-			System.out.println(cuenta.toString());
+			// System.out.println(cuenta.toString());
+
 			session.setAttribute("MY_USER", cuenta.getAlias());
 			session.setAttribute("PUBLIC_KEY", cuenta.getPass());
-
-			// Pasamos JS que se guarda en cliente
 			String jscript = "sessionStorage.setItem('user','" + cuenta.getAlias() + "');"
 					+ "sessionStorage.setItem('pass','" + cuenta.getPass() + "');";
 			mav.addObject("jscript", jscript);
 			mav.addObject("MY_USER", session.getAttribute("MY_USER"));
 			mav.addObject("PUBLIC_KEY", session.getAttribute("MY_USER"));
-			System.out.println(">>>>>>>>>> Llamamos a Welcome");
 			mav.setViewName("welcome");
-
-			// Return to getIndex se carga la session
-			//// return this.getIndex(response, request); // Retornamos el model and view de otro metodo
-		} else {
-			// No tenemos usuario, mostramos mensaje y redirigimos
+			return mav;
+		} catch (Exception e) {
 			mav.addObject("redirect", "/");
 			mav.addObject("mensaje", "Las claves enviadas no son validas");
 			mav.addObject("miliseconds", "3000");
 			mav.addObject("jscript", "");
 			mav.setViewName("basic-msg");
+			return mav;
 		}
-		return mav;
 	}
 
 	// TO_REVIEW
@@ -168,14 +174,29 @@ public class MainController implements Serializable {
 		mav.addObject("oferta", new Oferta());
 		return mav;
 	}
+	
+	@GetMapping("/oferta/update/{id}")
+	public ModelAndView formModificaProducto(
+		@PathVariable(name = "id") Long id,
+		HttpServletRequest request
+		) 
+	{
+		System.out.println(">>> formModificaProducto");
+		Usuario usuario = usuarioService.getUserByKey( (String) request.getSession().getAttribute("PUBLIC_KEY"));
+		System.out.println(">>> formModificaProducto");
+		Oferta oferta = ofertaService.findById(id);
 
-	@GetMapping("/modificaProducto/{id}")
-	public String formModificaProducto(@PathVariable(name = "id") Long id, Model model) {
-
-		Oferta updateOferta = ofertaService.findById(id);
-		model.addAttribute("listaProductos", ofertaService.findAll());
-		model.addAttribute("updateOferta", updateOferta);
-		return "modificarProducto";
+		if(usuario.getId() != oferta.getUsuario().getId()){
+			return redirectMessage("http://localhost:8080", "La id de la oferta y el usuario no coincide, no puedes editar", "9000");
+		}else{
+			ModelAndView mav = new ModelAndView("template");		
+			mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
+			mav.addObject("content", "oferta");
+			mav.addObject("oferta", oferta);
+			mav.addObject("usuario", usuario);
+			return mav;
+		}
+		
 	}
 
 	// FOCUS: Tenemos que conseguir que la oferta tambien guarde el usuario
@@ -199,13 +220,9 @@ public class MainController implements Serializable {
 		// Show data
 		System.out.println(">> Mi usuario es " + my_user );
 		System.out.println(">> Mi public_key es " + public_key );
-		System.out.println(">> Usuario es: "+ usuario.toString());
-		System.out.println(">> Imagen es: "+imagen.toString());
 
 		// Añadimos datos a oferta
 		oferta.setUsuario(usuario); 
-
-		System.out.println(">> Oferta es: "+oferta.toString());
 
 		if (!imagen.isEmpty() && usuario!=null) {
 			
