@@ -50,26 +50,30 @@
     enctype="multipart/form-data">
     <fieldset>
         <legend class="text-center">Crear/Editar Oferta</legend>
-        <div class="mb-3">
-            <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
-        </div>
-        <div class="mb-3">
-            <input th:field="${oferta.id}" class="form-input w-100" type="hidden">
-        </div>
-        <div class="mb-3">
-            <input th:field="${oferta.titulo}" class="form-input w-100" type="text" placeholder="Titulo">
-        </div>
-        <div class="mb-3">
-            <textarea th:text="${oferta.descripcion}" class="form-input w-100" style="height: 100px;" name="descripcion" placeholder="Descripción del producto">Hola mundo</textarea>
-        </div>
-        <div class="mb-3">
-            <input th:field="${oferta.precio}" type="number" step="0.01" min="0.99" value="0.99" placeholder="Precio" class="form-input w-100">
-        </div>
-        <div class="mb-3">
-            <input type="file" class="w-100" name="file" required="required">
-        </div>
-        <div class="mb-3">
-            <input type="submit" class="btn btn-primary w-100" value="Actualizar" />
+        <div class="row">
+            <div class="col">
+                <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <input th:field="${oferta.id}" class="form-input w-100" type="hidden">
+                </div>
+                <div class="mb-3">
+                    <input th:field="${oferta.titulo}" class="form-input w-100" type="text" placeholder="Titulo">
+                </div>
+                <div class="mb-3">
+                    <textarea th:text="${oferta.descripcion}" class="form-input w-100" style="height: 100px;" name="descripcion" placeholder="Descripción del producto">Hola mundo</textarea>
+                </div>
+                <div class="mb-3">
+                    <input th:field="${oferta.precio}" type="number" step="0.01" min="0.99" value="0.99" placeholder="Precio" class="form-input w-100">
+                </div>
+                <div class="mb-3">
+                    <input type="file" class="w-100" name="file" required="required">
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-primary w-100" value="Actualizar" />
+                </div>
+            </div>
         </div>
     </fieldset>
 </form>
