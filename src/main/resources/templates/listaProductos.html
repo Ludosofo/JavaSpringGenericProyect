@@ -1,13 +1,17 @@
 <h1>Lista de ofertas:</h1>
+
+<!-- TODO: Felix tiene que coger este codigo HTML y dejadlo bonito -->
 <div th:each=" oferta : ${listaProductos}">
 	
 		<h3 th:text="${oferta.titulo}"></h3>
 		<p th:text="${oferta.descripcion}"></p>
 		<div th:text="${oferta.precio} + '$'"></div>
 		<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
-		
-		<button type="submit">Comprar</button>
 	
+		<!-- TODO tengo que incorporar un carrito de compras si o sí para final del proyecto -->
+		<button type="submit">Comprar</button>
+		
+		<!-- TODO: Meter un th:if para que esto solo lo pueda hacer el mismo usuario -->
 	<a th:href="@{/oferta/update/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
 </div>
    
