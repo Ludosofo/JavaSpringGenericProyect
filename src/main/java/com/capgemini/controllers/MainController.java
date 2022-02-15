@@ -48,6 +48,8 @@ public class MainController implements Serializable {
 
 	public boolean confirmSession(HttpServletRequest request){
 		System.out.println("----- confirmSession()");
+
+		System.out.println("----- HOLA MUNDO ESTAMOS EN LA RAMA MAIN <<<<<<<<<<<<<<<<<<<<<<<<< ");
 		System.out.println(request.getSession().getAttribute("PUBLIC_KEY"));
 		System.out.println(request.getSession().getAttribute("MY_USER"));
 		
