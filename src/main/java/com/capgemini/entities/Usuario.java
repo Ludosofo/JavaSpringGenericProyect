@@ -2,6 +2,7 @@ package com.capgemini.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -13,6 +14,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
+=======
+import javax.persistence.ManyToOne;
+>>>>>>> 40e0ee59907df8bfcae181411015063c8e713fa1
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -61,6 +66,7 @@ public class Usuario implements Serializable{
 
 	// Estos atributos pueden ser null
 	// private String telefono;
+
 	private double geo_latitud = 0.0;
 	private double geo_altitud = 0.0;
 	private double dinero = 1000;
@@ -71,5 +77,6 @@ public class Usuario implements Serializable{
 	// 3. Cada cuanto tiempo buscamos los datos
 	// fetch = FetchType.LAZY
 	@OneToMany(mappedBy="usuario", cascade = CascadeType.ALL)
-    private List<Oferta> ofertas;
+	public List<Oferta> listaOfertas;
+	// Anteriormente ofertas
 }
