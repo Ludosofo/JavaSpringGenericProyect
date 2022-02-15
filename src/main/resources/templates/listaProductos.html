@@ -1,21 +1,15 @@
 <div class="container">
 	<h1>Lista de ofertas:</h1>
-	<div th:each=" oferta : ${listaProductos}">
-		<div class="card">
-			<h3 th:text="${oferta.titulo}"></h3>
-			<p th:text="${oferta.descripcion}"></p>
-			<div th:text="${oferta.precio} + '$'"></div>
+	<div class="card-body">
+		<div class="card col-sm-4 p-1 m-2" th:each=" oferta : ${listaProductos}">
+			<h2 class="card-title" th:text="${oferta.titulo}">Card title</h2>
 			<img th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
-			<button type="submit">Comprar</button>
+			<p th:class="card-text" th:text="${oferta.descripcion}"></p>
+			<div th:text="${oferta.precio} + '$'"></div>
+			<a href="#" class="btn btn-primary">Reservar</a>
 		</div>
-		<a th:href="@{/oferta/update/{id}  (id=${oferta.id})}"><button>Actualizar</button></a>
 	</div>
 </div>
-
-<a><button>Subir producto</button></a>
-
-
-
 
 <!--
 </body>

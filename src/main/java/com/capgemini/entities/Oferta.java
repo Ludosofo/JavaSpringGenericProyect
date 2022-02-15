@@ -39,10 +39,10 @@ public class Oferta implements Serializable {
 	
 	@NotNull
 	@NotEmpty(message = "Inserte una descripción para su oferta")
-	@Size(min = 3, max = 400, message = "La descripción del producto debe contenter entre  3 y 400 caracteres")
-	private String descripcion;
+	@Size(min = 3, max = 300, message = "La descripción debe contenter entre 12 y 300 caracteres")
+	private String descripcion = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vitae pharetra est. Vivamus sollicitudin fringilla ullamcorper. tristique id dui in, dictum mattis risus. Donec rhoncus tellus vitae ligula sagittis aliquet.";
 
-	private double precio;
+	private double precio = 0.99;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@NotNull
