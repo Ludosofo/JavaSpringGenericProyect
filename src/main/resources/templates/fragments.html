@@ -51,7 +51,8 @@
     <fieldset>
         <legend class="text-center">Crear/Editar Oferta</legend>
         <div class="mb-3">
-            <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+            <img id="currentImg" class="w-100 h-100" th:alt="${oferta.imagenes}"
+                th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
         </div>
         <div class="mb-3">
             <input th:field="${oferta.id}" class="form-input w-100" type="hidden">
@@ -60,10 +61,12 @@
             <input th:field="${oferta.titulo}" class="form-input w-100" type="text" placeholder="Titulo">
         </div>
         <div class="mb-3">
-            <textarea th:text="${oferta.descripcion}" class="form-input w-100" style="height: 100px;" name="descripcion" placeholder="Descripción del producto">Hola mundo</textarea>
+            <textarea th:text="${oferta.descripcion}" class="form-input w-100" style="height: 100px;" name="descripcion"
+                placeholder="Descripción del producto">Hola mundo</textarea>
         </div>
         <div class="mb-3">
-            <input th:field="${oferta.precio}" type="number" step="0.01" min="0.99" value="0.99" placeholder="Precio" class="form-input w-100">
+            <input th:field="${oferta.precio}" type="number" step="0.01" min="0.99" value="0.99" placeholder="Precio"
+                class="form-input w-100">
         </div>
         <div class="mb-3">
             <input type="file" class="w-100" name="file" required="required">
@@ -82,30 +85,32 @@
         <span class="navbar-toggler-icon"></span>
     </button> -->
     <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
-        <a class="navbar-brand" href="@{/}">LemonApp</a>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/ofertas}">Ofertas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/comunidad}">Comunidad</a>
-            </li>
-        </ul>
-        <form class="form-inline w-75 my-6 my-lg-0" align="center">
-            <input class="form-control mr-sm-2 w-50 d-inline-flex" type="search" placeholder="Buscar"
-                aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0 d-inline" type="submit">Buscar</button>
-        </form>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/oferta/crear}"><button class="btn btn-success">Vender</button></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
-            </li>
-            <li class="nav-item">
-                <a th:href="@{/logout}">Desconectar</a>
-            </li>
-        </ul>
+        <div class="container">
+            <a class="navbar-brand" href="@{/}">LemonApp</a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ofertas}">Ofertas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/comunidad}">Comunidad</a>
+                </li>
+            </ul>
+            <form class="form-inline w-75 my-6 my-lg-0" align="center">
+                <input class="form-control mr-sm-2 w-50 d-inline-flex" name="query" type="search" placeholder="Buscar"
+                    aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 d-inline" type="submit">Buscar</button>
+            </form>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/oferta/crear}"><button class="btn btn-success">Vender</button></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/logout}">Desconectar</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
