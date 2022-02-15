@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,26 +39,23 @@ public class MainController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 	private static final String defaultUserURL = "";
-	@Autowired
-	private IUsuarioServ usuarioService;
-	@Autowired
-	private IOfertaServ ofertaService;
+
+	// Inyección de dependencias !!!
+	@Autowired private IUsuarioServ usuarioService;
+	@Autowired private IOfertaServ ofertaService;
 	private AuxiliarFunctions auxFunctions;
 
 	public boolean confirmSession(HttpServletRequest request){
-		System.out.println("----- confirmSession()");
-		System.out.println(request.getSession().getAttribute("PUBLIC_KEY"));
-		System.out.println(request.getSession().getAttribute("MY_USER"));
-		
 		String key = (String) request.getSession().getAttribute("PUBLIC_KEY");
 		String user = (String) request.getSession().getAttribute("MY_USER");
 
+		// Tenemos datos? 
 		if(key==null && user==null){
-			System.out.println(">>>>>>> SESSION VACIA");
 			return false;
 		}
+
+		// Comprobamos la key en el servidor
 		if(usuarioService.getUserByKey(key)!=null){
-			System.out.println(">>>>> confirmamos el usuario");
 			return true;
 		}
 		return false;
@@ -209,6 +207,8 @@ public class MainController implements Serializable {
 			@RequestParam(name = "file") MultipartFile imagen,
 			HttpServletRequest request)
 	{
+
+		
 		System.out.println(">> /saveOferta");
 		// Set de datos
 		String rutaAbsoluta = "//home//curso//FotosOfertas//RecursosBack";
@@ -287,6 +287,12 @@ public class MainController implements Serializable {
 	@RequestMapping(path = "/addToCart/{id}/{key}", method = RequestMethod.GET)
 	public void addToCart(@PathVariable String id, @PathVariable String key) {
 		System.out.println("Soy addToCart/"+id+"/"+key);
+	}
+
+	public Optional<String> getExtensionByStringHandling(String filename) {
+		return Optional.ofNullable(filename)
+		  .filter(f -> f.contains("."))
+		  .map(f -> f.substring(filename.lastIndexOf(".") + 1));
 	}
 	
 

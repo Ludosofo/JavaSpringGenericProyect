@@ -79,13 +79,13 @@
 
 
 <!-- La barra de template -->
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-warning browser">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-warning browser mb-4">
+    <div class="container">
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button> -->
     <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
-        <div class="container">
             <a class="navbar-brand" href="@{/}">LemonApp</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -104,11 +104,13 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/oferta/crear}"><button class="btn btn-success">Vender</button></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
+                <li class="nav-item align-items-center">
+                    <a class="nav-link align-items-center" th:href="@{/usuario/}+${MY_USER}" th:text="${MY_USER}">${MY_USER}</a>
                 </li>
-                <li class="nav-item">
-                    <a th:href="@{/logout}">Desconectar</a>
+                <li class="nav-item align-items-center">
+                    <a class="nav-link" alt="desconectar" th:href="@{/logout}">
+                        <span style="scale: 1.6;" aria-hidden="true">&times;</span>
+                    </a>
                 </li>
             </ul>
         </div>
