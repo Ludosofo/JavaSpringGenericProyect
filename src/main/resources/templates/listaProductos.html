@@ -1,15 +1,7 @@
 <h1>Lista de ofertas:</h1>
 <div class="card-body">
 	<div class="card p-3 corrector-card-item" th:each=" oferta : ${listaProductos}">
-		<div class="card shadow-sm border-light mb-4">
-			<h3 class="card-title" th:text="${oferta.titulo}">Card title</h3>
-			<div class="img-container mb-3">
-				<img style="border-radius: 12px;" class="mb-3" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
-			</div>
-			<p style="max-height: 2rem; overflow: hidden;" th:class="card-text" th:text="${oferta.descripcion}"></p>
-			<h3 style="text-align: right; padding-right: 0.5rem;" th:text="${oferta.precio} + '€'"></h3>
-			<a href="#" class="btn btn-primary">Reservar</a>
-		</div>
+		<div th:replace="fragments :: cardProduct"></div>
 	</div>
 </div>
 </div>

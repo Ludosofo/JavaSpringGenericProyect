@@ -14,8 +14,8 @@
 
 <body>
     <h1 th:text="${mensaje}">${mensaje}</h1>
-    <div>Redireccionando a: <a id="url" th:href="${redirect}" th:text="${redirect}">url</a></div>
-    <div id="miliseconds" th:text="${miliseconds}"></div>
+    <div style="visibility: hidden;">Redireccionando a: <a id="url" th:href="${redirect}" th:text="${redirect}">url</a></div>
+    <div style="visibility: hidden;" id="miliseconds" th:text="${miliseconds}"></div>
 </body>
 <script>
     setInterval(() => {

@@ -1,0 +1,33 @@
+<!-- GRID SYSTEM!!!!! -->
+<div class="container">
+	<div class="row">
+		<div class="col-9">
+			<h3>Mis productos:</h3>
+			<div class="card p-3 corrector-card-item" th:each=" oferta : ${listaProductos}">
+				<div th:replace="fragments :: cardProduct"></div>
+			</div>
+		</div>
+		<div class="col-3">
+			<fieldset th:object="${usuario}">
+				<legend class="text-center">Perfil del Usuario</legend>
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Alias:</h5>
+					<p class="mb-1" th:text="${usuario.alias}"></p>
+				</div>
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Correo:</h5>
+					<p class="mb-1" th:text="${usuario.mail}"></p>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+
+<!-- <div th:each=" oferta : ${listaProductos}">
+	<h3 th:text="${oferta.titulo}"></h3>
+	<p th:text="${oferta.descripcion}"></p>
+	<div th:text="${oferta.precio} + '$'"></div><img th:alt="${oferta.imagenes}"
+		th:src="@{'/RecursosBack/'} + ${oferta.imagenes}"><a
+		th:href="@{/oferta/update/{id} (id=${oferta.id})}"><button>Actualizar</button></a>
+</div> -->

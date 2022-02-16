@@ -2,6 +2,8 @@ package com.capgemini.servicies.impl;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +63,7 @@ public class UsuarioServImpl implements IUsuarioServ{
 
 	@Override
 	public List<Usuario> findAllByOrderByIdDesc() {
-		return null; // daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
+		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
 
 
@@ -75,6 +77,12 @@ public class UsuarioServImpl implements IUsuarioServ{
 	@Override
 	public Usuario getUserByKey(String public_key) {
 		return daoUsuario.getUsuarioByKey(public_key);
+	}
+
+	@Override
+	public Usuario getUserByName(String name) {
+		// TODO Auto-generated method stub
+		return daoUsuario.getUserByName(name);
 	}
 
 }

@@ -166,7 +166,9 @@ public class MainController implements Serializable {
 	@GetMapping("/oferta/crear")
 	public ModelAndView crearOferta(@ModelAttribute(name = "oferta") Oferta oferta, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("template");
-		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
+		if(!confirmSession(request)){ return this.landingPage(); }
+		// mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 		mav.addObject("content", "oferta");
 		mav.addObject("oferta", new Oferta());
 		return mav;
@@ -293,6 +295,22 @@ public class MainController implements Serializable {
 		return Optional.ofNullable(filename)
 		  .filter(f -> f.contains("."))
 		  .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+	}
+
+
+	@GetMapping("/usuario/{name}")
+	public ModelAndView perfilUsuario(@PathVariable(name = "name") String name , HttpServletRequest request) {
+		if(!confirmSession(request)){ return this.landingPage(); }
+		System.out.println("Hola mundo soy usuario");
+		ModelAndView mav = new ModelAndView("template");
+
+		// Usuario usuario = usuarioService.getUserByKey("PUBLIC_KEY") request.getSession().getAttribute("public_key");
+		Usuario usuario = usuarioService.getUserByName(name);
+		mav.addObject("usuario", usuario);
+		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
+		mav.addObject("content", "perfilUsuario");
+		mav.addObject("listaProductos", ofertaService.findAllByUser(usuario));
+		return mav;
 	}
 	
 

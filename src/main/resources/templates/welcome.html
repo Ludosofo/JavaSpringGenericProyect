@@ -1,36 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido</title>
     <style>
-                /* No debería usar muchas etiquetas de css por posibles conflictos con bootstrap */
-                *{ padding: 0px; margin: 0px; }
-        .lemon{ background-color: #fff943; }
-        .text-logo{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 1px 1px; font-size: 3rem; margin-left: 2rem; }
-        .form{ display: inline-block; background-color: red; padding: 1rem; margin: 0.5rem; border: 1px solid black; border-radius: 12px; }
-        section.spacer{ flex: 1 1 auto; }
-        section.content{ height: 100%; }
-        footer{ background-color: #000000; }
-        h1, h2{ text-align: center; }
+        /* No debería usar muchas etiquetas de css por posibles conflictos con bootstrap */
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .lemon {
+            background-color: #fff943;
+        }
+
+        .text-logo {
+            font-family: 'Yellowtail', serif;
+            color: white;
+            text-shadow: black 1px 1px;
+            font-size: 3rem;
+            margin-left: 2rem;
+        }
+
+        .form {
+            display: inline-block;
+            background-color: red;
+            padding: 1rem;
+            margin: 0.5rem;
+            border: 1px solid black;
+            border-radius: 12px;
+        }
+
+        section.spacer {
+            flex: 1 1 auto;
+        }
+
+        section.content {
+            height: 100%;
+        }
+
+        footer {
+            background-color: #000000;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        .center{ margin: 120px auto 0px; }
+        body{ background-color: #e1dc3f;}
+        h1{ font-family: 'Yellowtail', serif; color: white; text-shadow: black 4px 4px; font-size: 10rem;   animation-name: example;
+  animation-duration: 1s; }
+
+        @keyframes example { from { font-size: 8rem;} to {background-color: 11rem; }
+}
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Yellowtail&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <h1>¡Bienvenido!</h1>
-    <h1 th:text="${MY_USER}"></h1>
-    
-    
+
+    <div class="center">
+        <h1>¡Bienvenido!</h1>
+        <h1 th:text="${MY_USER}"></h1>
+    </div>
+
+
     <!-- <div><a href="/test">Ir a la pagina de test</a></div>
     <div th:inner="${jscript}"></div>
     <script th:inline="javascript">/*<![CDATA[*/ var code = /*[[${jscript}]]*/ "default"; eval(code); /*]]>*/</script> -->
 
 </body>
 <script>
-    setInterval( function(){
+    setInterval(function () {
         console.log("Redirigiendo");
         window.location.href = "/ofertas";
-    }, 1500);
+    }, 2000);
 </script>
+
 </html>

@@ -5,16 +5,28 @@
         - añadir este fragmento a otro archivo      // th:replace="fragments :: formulario" 
 -->
 
+<!-- Tarjeta de producto generalizada para todo el proyecto -->
+<div th:fragment="cardProduct" class="card shadow-sm border-light mb-4">
+    <h4 class="card-title" th:text="${oferta.titulo}">Card title</h4>
+    <div class="img-container mb-3">
+        <img style="border-radius: 12px;" class="mb-3 center-cropped" th:alt="${oferta.imagenes}" th:src="@{'/RecursosBack/'} + ${oferta.imagenes}">
+    </div>
+    <p style="min-height: 3rem; max-height: 3rem; overflow: hidden;" th:class="card-text" th:text="${oferta.descripcion}"></p>
+    <h3 style="text-align: right; padding-right: 0.5rem;" th:text="${oferta.precio} + '€'"></h3>
+    <a href="#" class="btn btn-primary">Reservar</a>
+</div>
+
+
 <!-- formulario de login dirige a checkUsuario que obtendrá datos y configurará las cookies -->
 <form th:fragment="formLogin" th:object="${usuario}" th:class="form" method="post" th:action="@{/checkUsuario}"
     class="bg-white d-inline-flex border ml-1">
     <fieldset>
         <legend>Inicia sesión</legend>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="usuario o mail">
+            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="usuario o mail" autocomplete="off">
         </div>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.pass}" type="pass" name="pass" placeholder="contraseña">
+            <input class="form-input" th:value="${usuario.pass}" type="password" name="pass" placeholder="contraseña" autocomplete="off">
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Iniciar Sesion">
@@ -26,18 +38,17 @@
 </form>
 
 <!-- Formulario de registro -->
-<form th:fragment="formRegister" th:object="${usuario}" th:class="form" method="post" th:action="@{/register}"
-    class="bg-white d-inline-flex border">
+<form th:fragment="formRegister" th:object="${usuario}" th:class="form" method="post" th:action="@{/register}" class="bg-white d-inline-flex border" autocomplete="off">
     <fieldset>
         <legend>¿No tienes cuenta?</legend>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="Nick de usuario">
+            <input class="form-input" th:value="${usuario.alias}" name="alias" placeholder="Nick de usuario" autocomplete="off">
         </div>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.pass}" name="pass" placeholder="Contraseña">
+            <input class="form-input" th:value="${usuario.pass}" type="password" name="pass" placeholder="Contraseña" autocomplete="off">
         </div>
         <div class="mb-3">
-            <input class="form-input" th:value="${usuario.mail}" name="mail" placeholder="email">
+            <input class="form-input" th:value="${usuario.mail}" name="mail" placeholder="email" autocomplete="off">
         </div>
         <div class="mb-3">
             <input class="btn btn-primary" type="submit" value="Registrate">
@@ -86,7 +97,7 @@
         <span class="navbar-toggler-icon"></span>
     </button> -->
     <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
-            <a class="navbar-brand" href="@{/}">LemonApp</a>
+            <a class="navbar-brand" href="http://localhost:8080">LemonApp</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/ofertas}">Ofertas</a>

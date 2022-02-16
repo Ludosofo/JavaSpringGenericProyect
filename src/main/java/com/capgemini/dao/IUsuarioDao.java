@@ -15,5 +15,7 @@ public interface IUsuarioDao extends JpaRepository<Usuario, Long>{
     @Query("SELECT u FROM Usuario u WHERE u.pass = ?1")
 	public Usuario getUsuarioByKey(String public_key);
     
+    @Query("SELECT u FROM Usuario u WHERE u.alias = ?1")
+	public Usuario getUserByName(String name);
 }
 	
