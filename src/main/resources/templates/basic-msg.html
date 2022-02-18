@@ -7,13 +7,25 @@
     <title>Mensaje & Redirección</title>
     <style>
         body{ background-color: yellow; }
-        h1{ font-size: 2em; text-align: center; }
         div{ text-align: center; }
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        .center{ margin: 120px auto 0px; }
+        body{ background-color: #e1dc3f;}
+        h1{ font-family: 'Roboto', serif; color: white; text-shadow: black 1px 1px 2px; }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1 th:text="${mensaje}">${mensaje}</h1>
+    <div class="center">
+        <h1 th:text="${mensaje}">${mensaje}</h1>
+    </div>
     <div style="visibility: hidden;">Redireccionando a: <a id="url" th:href="${redirect}" th:text="${redirect}">url</a></div>
     <div style="visibility: hidden;" id="miliseconds" th:text="${miliseconds}"></div>
 </body>

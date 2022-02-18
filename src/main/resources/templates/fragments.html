@@ -13,7 +13,18 @@
     </div>
     <p style="min-height: 3rem; max-height: 3rem; overflow: hidden;" th:class="card-text" th:text="${oferta.descripcion}"></p>
     <h3 style="text-align: right; padding-right: 0.5rem;" th:text="${oferta.precio} + '€'"></h3>
-    <a href="#" class="btn btn-primary">Reservar</a>
+
+    <div th:if="${oferta.usuario.id}==${usuario.id}">
+        <a th:href="@{/oferta/update/} + ${oferta.id}">
+            <button class="btn btn-success btn-block mb-1">Editar</button>
+        </a>
+        <a th:data-method="delete" th:href="@{/oferta/delete/} + ${oferta.id}">
+            <button class="btn btn-danger btn-block mb-1">Eliminar</button>
+        </a>
+    </div>
+    <div th:if="${oferta.usuario.id}!=${usuario.id}">
+        <button class="btn btn-primary w-100 mb-1">Reservar</button>
+    </div>
 </div>
 
 
@@ -102,9 +113,9 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/ofertas}">Ofertas</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" th:href="@{/comunidad}">Comunidad</a>
-                </li>
+                </li> -->
             </ul>
             <form class="form-inline w-75 my-6 my-lg-0" align="center">
                 <input class="form-control mr-sm-2 w-50 d-inline-flex" name="query" type="search" placeholder="Buscar"

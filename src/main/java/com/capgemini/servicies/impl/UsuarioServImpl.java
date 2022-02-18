@@ -66,11 +66,9 @@ public class UsuarioServImpl implements IUsuarioServ{
 		return daoUsuario.findAll().stream().sorted(Comparator.comparing(Usuario::getId).reversed()).collect(Collectors.toList());
 	}
 
-
 	@Override
 	public Usuario findUsuarioByAliasAndPass(String alias, String pass) {
 		pass = AuxiliarFunctions.getMd5( pass );
-		System.out.println(">>>findUsuarioByAliasAndPass("+alias+" "+pass+")");
 		return daoUsuario.findUsuarioByAliasAndPass(alias, pass);
 	}
 

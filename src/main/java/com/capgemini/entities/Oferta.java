@@ -44,7 +44,7 @@ public class Oferta implements Serializable {
 
 	private double precio = 0.99;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@NotNull
 	public Usuario usuario;
 

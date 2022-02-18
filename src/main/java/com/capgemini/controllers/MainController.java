@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -154,11 +155,15 @@ public class MainController implements Serializable {
 	public ModelAndView listaProductos( HttpServletRequest request )
 	{
 		if(!confirmSession(request)){ return this.landingPage(); }
+
+		String MY_USER = (String) request.getSession().getAttribute("MY_USER");
+
 		ModelAndView mav = new ModelAndView("template");
 		mav.addObject("content", "listaProductos");
 		mav.addObject("listaProductos", ofertaService.findAll());
 		mav.addObject("oferta", new Oferta());
-		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER") );
+		mav.addObject("usuario", usuarioService.getUserByName(MY_USER) );
+		mav.addObject("MY_USER", MY_USER );
 		return mav;
 	}
 
@@ -301,15 +306,27 @@ public class MainController implements Serializable {
 	@GetMapping("/usuario/{name}")
 	public ModelAndView perfilUsuario(@PathVariable(name = "name") String name , HttpServletRequest request) {
 		if(!confirmSession(request)){ return this.landingPage(); }
+		Usuario usuario = usuarioService.getUserByName(name);
+		
+		// Comprobamos que el usuario no pueda pasar si no lo tenemos
+		if(usuario==null){ return redirectMessage("http://localhost:8080", "Este usuario no existe", "1500"); }
 		System.out.println("Hola mundo soy usuario");
 		ModelAndView mav = new ModelAndView("template");
 
 		// Usuario usuario = usuarioService.getUserByKey("PUBLIC_KEY") request.getSession().getAttribute("public_key");
-		Usuario usuario = usuarioService.getUserByName(name);
+		
 		mav.addObject("usuario", usuario);
 		mav.addObject("MY_USER", request.getSession().getAttribute("MY_USER"));
 		mav.addObject("content", "perfilUsuario");
 		mav.addObject("listaProductos", ofertaService.findAllByUser(usuario));
+		return mav;
+	}
+	
+	@GetMapping("/oferta/delete/{id}")
+	public ModelAndView deleteOferta(@PathVariable(name = "id") Long id, HttpServletRequest request){
+		if(!confirmSession(request)){ return this.landingPage(); }
+		ofertaService.delete(id);
+		ModelAndView mav = redirectMessage("http://localhost:8080/ofertas", "Producto eliminado exitosamente", "1500");
 		return mav;
 	}
 	
